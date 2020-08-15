@@ -13,7 +13,7 @@
     flex-direction: row;
     box-shadow: black;
     align-items: center;
-    justify-content: space-between;
+
 }
 .row{
     display: flex;
@@ -24,6 +24,7 @@
 }
 .row ul{
     padding: 20px;
+    padding-bottom: 30px;
 }
 .row li{
     margin-right: 12px;
@@ -40,7 +41,7 @@
     height: 24px;
 }
 .headeritems{
-    align-self: left;
+    padding-bottom: 30px;
 }
 .dlbutton{
     display: flex;
@@ -50,6 +51,21 @@
     width: 100px;
     border: none;
     justify-content: center;
+    margin-left: auto;
+    margin-right: 0px;
+}
+.buttonalignement{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.buttonlogo1{
+    width: 20px;
+    height: 20px;
+    margin-left: 18px;
+}
+.buttontext1{
+    margin-left: 15px;
 }
 .dlbutton h4{
     color: white;
@@ -502,13 +518,13 @@
 .footcontainer{
     display: flex;
     flex-direction: column;
-    margin: 65px auto 20px auto;
+    margin: 55px auto 0px auto;
     width: 1100px;
     height: 536px;
     border-width: 5px;
     border-top-color: #2f374f;
-    padding-bottom: 73px;
-    background-color: #fafafa;
+    padding-bottom: 23px;
+    background-color: #f7f7f7e1;
 }
 
 .quicklinks{
@@ -532,4 +548,45 @@
 .trademarks img{
     align-content: center;
     margin: auto 0 auto 0;
+}
+.fontcolorgray{
+    color: #6d7384;
+}
+.fontcolorred{
+    color: #ef3939;
+}
+.divintrostyle{
+    color: rgb(100, 99, 99); 
+    font-family: fantasy; 
+    font-weight: lighter;
+}
+.fontcolorgreen{
+    color: #19bf73;
+}
+.fontcolorblue{
+    color: #6c84ea;
+}
+.fontcoloryellow{
+    color: #ffbb0d;
+}
+.paragraphreview{
+    margin-left: 10px;
+}
+.bottombutton{
+    height: 53px; 
+    display: flex; 
+    justify-content: center;
+}
+.communitypadding{
+    padding-left: 60px;
+}
+.footcontainerstyling{
+    height: 50px;
+}
+.footerlogostyling{
+    width: 24px; 
+    height: 24px;
+}
+.footerparagraphstyling{
+    font-size: small;
 }
