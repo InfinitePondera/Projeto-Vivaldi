@@ -6,6 +6,8 @@
   flex-direction: column;
 }
 
+
+
 .viheader{
   display: flex;
   max-height: 64px;
@@ -46,6 +48,20 @@
 .headeritems{
   padding-bottom: 30px;
 }
+
+.login{
+  display: flex;
+  max-height: 38px;
+  align-items: center;
+  background: #09b56f;
+  color:white;
+  width: 100px;
+  border: none;
+  justify-content: center;
+  margin-left: 15px;
+  margin-right: 0px;
+  cursor: pointer;
+}
 .dlbutton{
   display: flex;
   max-height: 38px;
@@ -56,7 +72,54 @@
   justify-content: center;
   margin-left: auto;
   margin-right: 0px;
+  cursor: pointer;
 }
+
+.inlogin{
+  
+  margin-top: 7px;
+  margin-right: 5px;
+  width: 90%;
+  height: 30px;
+  justify-content: center;
+  font-size: 17px;
+}
+.popdiv1{
+  display: flex;
+  float: left;
+  width: 50%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2f374f;
+
+}
+.popdiv2{
+  display: flex;
+  float: right;
+  width: 50%; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2f374f;
+}
+.popspan{
+  display: flex;
+  flex-direction: row;
+}
+.log{
+  display: flex;
+  height: 38px;
+  align-items: center;
+  background: #09b56f;
+  width: 100px;
+  border: none;
+  justify-content: center;
+  margin-top: 10px;
+  cursor: pointer;
+  color: white;
+}
+
 .buttonalignement{
   display: flex;
   flex-direction: row;

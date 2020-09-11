@@ -26,9 +26,42 @@ import cropped19 from './assets/vivaldi-quickcommands.webp';
 import cropped20 from './assets/vivaldi-quickcommands.webp';
 import cropped21 from './assets/vivaldi-quickcommands.webp';
 import './App.css';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 
 class App extends React.Component{
+  
+  constructor(props){
+      super(props)
+      this.state= {name:'', pass:'', passc:''};
+  }
+
+  cadastrar(){
+    this.setState((state)=>{
+        return{
+            name:'',
+            pass: '',
+            passc:''
+        }
+    });
+  }
+
+  handle_change(ev){
+      this.setState({name: ev.target.value });
+      
+  }
+
+  handle_change2(ev){
+    
+    this.setState({pass: ev.target.value});
+  }
+
+  handle_change3(ev){
+    
+    this.setState({passc: ev.target.value});
+  }
+
   render(){
       return (
           <div className="wrapper">
@@ -72,6 +105,29 @@ class App extends React.Component{
               <button id="buttondownload" class="dlbutton">
                   <h4>Download</h4>
               </button>
+              <Popup trigger={
+                <button class="login" >
+                  <h4>Login</h4>
+                    </button>} modal>
+                    <span class="popspan">
+                    <div class="popdiv1">
+                        <h1>Entrar</h1>
+                        <input type="text"  placeholder="Nome" class="inlogin"/>
+                        <input type="text"  placeholder="Senha" class="inlogin" />
+                        <button class="log"><h4>Logar</h4></button>
+                    </div>
+                    <div class="popdiv2">
+                        <h1>Cadastre-se</h1>
+                        <input type="text" placeholder="Nome"  class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)}/>
+                        <input type="text" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)}/>
+                        <input type="text" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)}/>
+                        <button class="log" onClick={this.cadastrar.bind(this)}><h4>Cadastrar</h4></button>
+                    </div>
+
+                  </span>
+                  
+              </Popup>
+              
           </div>
           <div class="navbarborder">
           <div class="infomainbackground1">
