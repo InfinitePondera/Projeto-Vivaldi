@@ -151,6 +151,15 @@
 }
 .popspan{
   display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: left;
+  align-items: flex-start;
+  border-color: #2f374f;
+  border: 2px;
+}
+.popspanSearch{
+  display: flex;
   flex-direction: column;
   width: 100%;
   justify-content: left;

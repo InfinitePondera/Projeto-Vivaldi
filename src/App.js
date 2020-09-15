@@ -34,14 +34,21 @@ class App extends React.Component {
     }
 
     cadastrar() {
-        this.setState((state) => {
+
+        if(this.state.pass!=this.state.passc ){
+            alert("Senhas não condizentes");
+        } else{
+            alert("Login feito");
+        }
+        this.setState((state) =>{
             return {
                 name: '',
                 pass: '',
                 passc: ''
             }
         });
-    }
+        }
+    
 
     handle_change(ev) {
         this.setState({ name: ev.target.value });
@@ -77,6 +84,9 @@ class App extends React.Component {
                 });
             }));
     };
+
+
+
     render() {
         return (
             <div className="wrapper">
@@ -124,7 +134,7 @@ class App extends React.Component {
                             <button class="login">
                                 <h4>Pesquisar</h4>
                             </button>} modal>
-                            <span class="popspan">
+                            <span class="popspanSearch">
                                 <div class="popdivSearch">
                                     <h1>Pesquisar por item</h1>
                                     <div class="APIContainerDiv">
