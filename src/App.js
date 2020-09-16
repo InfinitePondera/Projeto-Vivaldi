@@ -38,8 +38,15 @@ class App extends React.Component {
         if(this.state.pass!=this.state.passc ){
             alert("Senhas não condizentes");
         } else{
+            const user={
+                nome:this.state.name,
+                senha: this.state.pass
+            }
+            const userString = JSON.stringify(user);
             alert("Login feito");
+            localStorage.setItem('2', userString  );
         }
+        
         this.setState((state) =>{
             return {
                 name: '',
