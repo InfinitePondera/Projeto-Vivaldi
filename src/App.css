@@ -750,3 +750,16 @@
     height: 30px;
   }
 }
+
+.welcomeShow{
+  color: #2f374f;
+}
+.welcomeHide{
+  display: none;
+}
+.loginHide{
+  display: none;
+}
+.searchHide{
+  display: none;
+}

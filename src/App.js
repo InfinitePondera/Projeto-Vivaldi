@@ -31,11 +31,14 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
-            name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:'', namelog:'', passlog:''};
+            name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:'', namelog:'', passlog:'', welcomeShow:'"welcomeHide"', searchShow:'"searchHide"', loginHide:'"login"'};
+        this.loginButton = React.createRef();
+        this.welcomeText = React.createRef();
+        this.searchButton = React.createRef();
     }
    
     cadastrar() {
-        
+        var ind = 1;
         if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
             alert("Preencha os campos corretamente");
         }else{
@@ -48,7 +51,7 @@ class App extends React.Component {
                 }
                 const userString = JSON.stringify(user);
                 alert("Cadastro realizado!");
-                localStorage.setItem('5', userString);
+                localStorage.setItem(ind.toString(), userString);
 
             }   
         }
@@ -61,6 +64,7 @@ class App extends React.Component {
                 passc: ''
             }
         });
+        ind++;
     }
 
     logar(){
@@ -93,7 +97,10 @@ class App extends React.Component {
         this.setState((state) =>{
             return {
                 namelog: '',
-                passlog: ''
+                passlog: '',
+                welcomeShow: '"welcomeShow"',
+                searchShow: '"login"',
+                loginHide: '"loginHide"'
             }
         });
     }
@@ -189,7 +196,7 @@ class App extends React.Component {
                             <h4>Download</h4>
                         </button>
                         <Popup trigger={
-                            <button class="login">
+                            <button ref={this.searchButton} class={this.state.searchShow}>
                                 <h4>Pesquisar</h4>
                             </button>} modal>
                             <span class="popspanSearch">
@@ -214,7 +221,7 @@ class App extends React.Component {
                             </span>
                         </Popup>
                         <Popup trigger={
-                            <button class="login" >
+                            <button ref={this.loginButton} class={this.state.loginHide} >
                                 <h4>Login</h4>
                             </button>} modal>
                             <span id="popspan"class="popspan">
@@ -235,7 +242,7 @@ class App extends React.Component {
                             </span>
 
                         </Popup>
-
+                        <span ref={this.welcomeText} class={this.state.welcomeShow}>Bem-vindo, {this.state.nomeLog}</span>
                     </div>
                     <div class="navbarborder">
                         <div class="infomainbackground1">
