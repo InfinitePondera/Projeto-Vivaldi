@@ -753,13 +753,6 @@
 
 .welcomeShow{
   color: #2f374f;
-}
-.welcomeHide{
-  display: none;
-}
-.loginHide{
-  display: none;
-}
-.searchHide{
-  display: none;
+  font-weight: bold;
+  margin-left: 12px;
 }

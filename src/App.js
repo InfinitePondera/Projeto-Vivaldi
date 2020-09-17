@@ -31,14 +31,14 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
-            name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:'', namelog:'', passlog:'', welcomeShow:'"welcomeHide"', searchShow:'"searchHide"', loginHide:'"login"'};
+            name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:'', namelog:'', passlog:'', showSearch: false, showWelcome: false, hideLogin: true, displayName: ''};
         this.loginButton = React.createRef();
         this.welcomeText = React.createRef();
         this.searchButton = React.createRef();
     }
    
     cadastrar() {
-        var ind = 1;
+        var ind = 0;
         if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
             alert("Preencha os campos corretamente");
         }else{
@@ -96,11 +96,12 @@ class App extends React.Component {
         
         this.setState((state) =>{
             return {
+                displayName: this.state.namelog,
                 namelog: '',
                 passlog: '',
-                welcomeShow: '"welcomeShow"',
-                searchShow: '"login"',
-                loginHide: '"loginHide"'
+                showSearch: true,
+                showWelcome: true,
+                hideLogin: false
             }
         });
     }
@@ -195,54 +196,66 @@ class App extends React.Component {
                         <button id="buttondownload" class="dlbutton">
                             <h4>Download</h4>
                         </button>
-                        <Popup trigger={
-                            <button ref={this.searchButton} class={this.state.searchShow}>
-                                <h4>Pesquisar</h4>
-                            </button>} modal>
-                            <span class="popspanSearch">
-                                <div class="popdivSearch">
-                                    <h1>Pesquisar por item</h1>
-                                    <div class="APIContainerDiv">
-                                        <input type="text" id="searchInput" placeholder="ID do item..." class="popSearchBar" value={this.state.idInput} onChange={this.mudarEstado.bind(this)} />
-                                        <button onClick={this.IDSearch.bind(this)} class="popSearchButton"><h4>Pesquisar</h4></button>
+                        {
+                            this.state.showSearch?
+                            <Popup trigger={
+                                <button ref={this.searchButton} class="login">
+                                    <h4>Pesquisar</h4>
+                                </button>} modal>
+                                <span class="popspanSearch">
+                                    <div class="popdivSearch">
+                                        <h1>Pesquisar por item</h1>
+                                        <div class="APIContainerDiv">
+                                            <input type="text" id="searchInput" placeholder="ID do item..." class="popSearchBar" value={this.state.idInput} onChange={this.mudarEstado.bind(this)} />
+                                            <button onClick={this.IDSearch.bind(this)} class="popSearchButton"><h4>Pesquisar</h4></button>
+                                        </div>
+                                        <div class="popdivResults">
+                                            <h2>Job: <span>{this.state.job}</span></h2>
+                                            
+                                            <h2>Nome: <span>{this.state.name}</span></h2>
+                                            
+                                            <h2>Descrição: <span>{this.state.description}</span></h2>
+                                            
+                                            <h2>Nível: <span>{this.state.itemLevel}</span></h2>
+                                            
+                                        </div>
+
                                     </div>
-                                    <div class="popdivResults">
-                                        <h2>Job: <span>{this.state.job}</span></h2>
-                                        
-                                        <h2>Nome: <span>{this.state.name}</span></h2>
-                                        
-                                        <h2>Descrição: <span>{this.state.description}</span></h2>
-                                        
-                                        <h2>Nível: <span>{this.state.itemLevel}</span></h2>
-                                        
+                                </span>
+                            </Popup>
+                            :null
+                        }
+                        {
+                            this.state.hideLogin?
+                            <Popup trigger={
+                                <button ref={this.loginButton} class="login">
+                                    <h4>Login</h4>
+                                </button>} modal>
+                                <span id="popspan"class="popspan">
+                                    <div class="popdiv1">
+                                        <h1>Entrar</h1>
+                                        <input type="text" placeholder="Nome" class="inlogin" value={this.state.namelog} onChange={this.handle_change_log.bind(this)} />
+                                        <input type="password" placeholder="Senha" class="inlogin" value={this.state.passlog} onChange={this.handle_change_log2.bind(this)}  />
+                                        <button class="log" onClick={this.logar.bind(this)}><h4>Logar</h4></button>
+                                    </div>
+                                    <div class="popdiv2">
+                                        <h1>Cadastre-se</h1>
+                                        <input type="text" placeholder="Nome" class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)} />
+                                        <input type="password" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)} />
+                                        <input type="password" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)} />
+                                        <button class="log" onClick={this.cadastrar.bind(this)}><h4>Cadastrar</h4></button>
                                     </div>
 
-                                </div>
-                            </span>
-                        </Popup>
-                        <Popup trigger={
-                            <button ref={this.loginButton} class={this.state.loginHide} >
-                                <h4>Login</h4>
-                            </button>} modal>
-                            <span id="popspan"class="popspan">
-                                <div class="popdiv1">
-                                    <h1>Entrar</h1>
-                                    <input type="text" placeholder="Nome" class="inlogin" value={this.state.namelog} onChange={this.handle_change_log.bind(this)} />
-                                    <input type="password" placeholder="Senha" class="inlogin" value={this.state.passlog} onChange={this.handle_change_log2.bind(this)}  />
-                                    <button class="log" onClick={this.logar.bind(this)}><h4>Logar</h4></button>
-                                </div>
-                                <div class="popdiv2">
-                                    <h1>Cadastre-se</h1>
-                                    <input type="text" placeholder="Nome" class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)} />
-                                    <input type="password" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)} />
-                                    <input type="password" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)} />
-                                    <button class="log" onClick={this.cadastrar.bind(this)}><h4>Cadastrar</h4></button>
-                                </div>
+                                </span>
 
-                            </span>
-
-                        </Popup>
-                        <span ref={this.welcomeText} class={this.state.welcomeShow}>Bem-vindo, {this.state.nomeLog}</span>
+                            </Popup>
+                            :null
+                        }
+                        {   
+                            this.state.showWelcome?
+                            <span ref={this.welcomeText} class="welcomeShow">Bem-vindo, {this.state.displayName}</span>
+                            :null
+                        }
                     </div>
                     <div class="navbarborder">
                         <div class="infomainbackground1">
