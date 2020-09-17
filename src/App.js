@@ -27,25 +27,32 @@ import 'reactjs-popup/dist/index.css';
 
 
 class App extends React.Component {
-
+    
     constructor(props) {
         super(props)
-        this.state = { name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:''};
+        this.state = { 
+            name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:'', namelog:'', passlog:''};
     }
-
+   
     cadastrar() {
+        
+        if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
+            alert("Preencha os campos corretamente");
+        }else{
+            if(this.state.pass!=this.state.passc ){
+                alert("Senhas não condizentes");
+            } else{
+                const user={
+                    nome:this.state.name,
+                    senha: this.state.pass
+                }
+                const userString = JSON.stringify(user);
+                alert("Cadastro realizado!");
+                localStorage.setItem('5', userString);
 
-        if(this.state.pass!=this.state.passc ){
-            alert("Senhas não condizentes");
-        } else{
-            const user={
-                nome:this.state.name,
-                senha: this.state.pass
-            }
-            const userString = JSON.stringify(user);
-            alert("Login feito");
-            localStorage.setItem('2', userString  );
+            }   
         }
+        
         
         this.setState((state) =>{
             return {
@@ -54,7 +61,43 @@ class App extends React.Component {
                 passc: ''
             }
         });
+    }
+
+    logar(){
+        var i;
+        var check=false;
+        for (i=0; i<localStorage.length;i++){
+            const ver =localStorage.getItem(i);
+            const verif = JSON.parse(ver);
+
+           
+                if((this.state.namelog==verif.nome)&&(this.state.passlog==verif.senha)){
+                alert("Login feito");
+                check=true;
+               
+                }
+            
+
         }
+        if((this.state.namelog=='')||(this.state.passlog=='')){
+            alert("Preencha os campos corretamente");
+        }
+        else{
+            if (check==false){
+                alert("Nome ou Senha incorretos.");
+           
+            
+            }
+        }
+        
+        this.setState((state) =>{
+            return {
+                namelog: '',
+                passlog: ''
+            }
+        });
+    }
+
     
 
     handle_change(ev) {
@@ -70,6 +113,14 @@ class App extends React.Component {
     handle_change3(ev) {
 
         this.setState({ passc: ev.target.value });
+    }
+
+    handle_change_log(ev){
+        this.setState({namelog: ev.target.value})
+    }
+
+    handle_change_log2(ev){
+        this.setState({passlog: ev.target.value})
     }
 
     mudarEstado(ev) {
@@ -166,18 +217,18 @@ class App extends React.Component {
                             <button class="login" >
                                 <h4>Login</h4>
                             </button>} modal>
-                            <span class="popspan">
+                            <span id="popspan"class="popspan">
                                 <div class="popdiv1">
                                     <h1>Entrar</h1>
-                                    <input type="text" placeholder="Nome" class="inlogin" />
-                                    <input type="text" placeholder="Senha" class="inlogin" />
-                                    <button class="log"><h4>Logar</h4></button>
+                                    <input type="text" placeholder="Nome" class="inlogin" value={this.state.namelog} onChange={this.handle_change_log.bind(this)} />
+                                    <input type="password" placeholder="Senha" class="inlogin" value={this.state.passlog} onChange={this.handle_change_log2.bind(this)}  />
+                                    <button class="log" onClick={this.logar.bind(this)}><h4>Logar</h4></button>
                                 </div>
                                 <div class="popdiv2">
                                     <h1>Cadastre-se</h1>
                                     <input type="text" placeholder="Nome" class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)} />
-                                    <input type="text" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)} />
-                                    <input type="text" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)} />
+                                    <input type="password" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)} />
+                                    <input type="password" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)} />
                                     <button class="log" onClick={this.cadastrar.bind(this)}><h4>Cadastrar</h4></button>
                                 </div>
 
