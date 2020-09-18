@@ -1,5 +1,5 @@
 # Projeto Web - Vivaldi
 
-Participante: Zyon Amadeus Almeida Melo
+Participantes: Zyon Amadeus Almeida Melo, Gabriel Antal
 
 Página hosteada pelo github: https://infinitepondera.github.io/Projeto-Vivaldi/
