@@ -31,9 +31,9 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
-            name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:'', 
+            name: '', pass: '', passc: '', idInput: '', job:'', description:'', itemLevel:'', 
             namelog:'', passlog:'', showSearch: false, showWelcome: false, hideLogin: true, displayName: '', divLog2: false,
-            divLog1: false, divLog3: false, divLog4: false, divLog5: false
+            divLog1: false, divLog3: false, divLog4: false, divLog5: false, ind: 0
         };
         this.loginButton = React.createRef();
         this.welcomeText = React.createRef();
@@ -46,7 +46,7 @@ class App extends React.Component {
     }
    
     cadastrar() {
-        var ind = 0;
+        
         if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
             this.setState((state)=>{
                 return{
@@ -83,7 +83,19 @@ class App extends React.Component {
                     senha: this.state.pass
                 }
                 const userString = JSON.stringify(user);
-                  this.setState((state)=>{
+                localStorage.setItem(this.state.ind.toString(), userString);
+
+                const axios = require('axios');
+                    
+                axios.post('https://reqres.in/api/users',{
+                            name: this.state.name,
+                            job: this.state.pass
+                    })
+                    .then(((response) => {
+                            console.log(response);
+                    }));
+
+                this.setState((state)=>{
                     return{
                         divLog1:true
                     }
@@ -95,7 +107,7 @@ class App extends React.Component {
                         }
                     });
                   }, 2500)
-                localStorage.setItem(ind.toString(), userString);
+                
 
             }   
         }
@@ -109,7 +121,7 @@ class App extends React.Component {
                 
             }
         });
-        ind++;
+        this.state.ind++;
     }
 
     logar(){
@@ -119,16 +131,26 @@ class App extends React.Component {
             const ver =localStorage.getItem(i);
             const verif = JSON.parse(ver);
 
-           
+
+
                 if((this.state.namelog==verif.nome)&&(this.state.passlog==verif.senha)){
-                    this.setState((state) =>{
-                        return {
-                            displayName: this.state.namelog,
-                            showSearch: true,
-                            showWelcome: true,
-                            hideLogin: false
+                    const axios = require('axios');
+          
+                    axios.get('https://reqres.in/api/users/'+i)
+                        .then(((response) => {
+                            console.log(response);
+                        }));
+                        
+                    this.setState((state)=>{
+                        return{
+                        displayName: this.state.namelog,
+                        hideLogin:false,
+                        showWelcome: true,
+                        showSearch: true
                         }
-                    });
+                    }
+                    )    
+                        
                 check=true;
                
                 }
