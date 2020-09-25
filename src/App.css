@@ -180,6 +180,39 @@
   color: white;
 }
 
+.divLog{
+  display: flex;
+  height: 20px;
+  align-items: center;
+  color: #ef3939;
+  width: auto;
+  justify-content: center;
+  margin-top: 5px;
+  padding: 0px 5px 0px 5px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ef3939;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.divLog2{
+  display: flex;
+  height: 20px;
+  align-items: center;
+  color:#09b56f;
+  width: auto;
+  justify-content: center;
+  margin-top: 5px;
+  padding: 0px 5px 0px 5px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #09b56f;
+  font-size: 14px;
+  border-radius: 5px;
+  
+}
+
 .buttonalignement{
   display: flex;
   flex-direction: row;
@@ -755,4 +788,18 @@
   color: #2f374f;
   font-weight: bold;
   margin-left: 12px;
+}
+
+
+@keyframes sumiu{
+  0%{
+    opacity: 1;
+    visibility: visible;
+  }
+
+  100%{
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+  }
 }

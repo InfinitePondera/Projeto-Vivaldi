@@ -31,26 +31,70 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
-            name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:'', namelog:'', passlog:'', showSearch: false, showWelcome: false, hideLogin: true, displayName: ''};
+            name: '', pass: '', passc: '', idInput: '', job:'', name:'', description:'', itemLevel:'', 
+            namelog:'', passlog:'', showSearch: false, showWelcome: false, hideLogin: true, displayName: '', divLog2: false,
+            divLog1: false, divLog3: false, divLog4: false, divLog5: false
+        };
         this.loginButton = React.createRef();
         this.welcomeText = React.createRef();
         this.searchButton = React.createRef();
+        this.divLog1 = React.createRef();
+        this.divLog2 = React.createRef();
+        this.divLog3 = React.createRef();
+        this.divLog4 = React.createRef();
+        this.divLog5 = React.createRef();
     }
    
     cadastrar() {
         var ind = 0;
         if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
-            alert("Preencha os campos corretamente");
+            this.setState((state)=>{
+                return{
+                    divLog3:true
+                    
+                }
+            });
+            setTimeout(() => {
+                this.setState((state)=>{
+                    return{
+                        divLog3:false                          
+                    }
+                });
+              }, 2500);
         }else{
             if(this.state.pass!=this.state.passc ){
-                alert("Senhas não condizentes");
+                this.setState((state)=>{
+                    return{
+                        divLog2:true
+                        
+                    }
+                });
+                setTimeout(() => {
+                    this.setState((state)=>{
+                        return{
+                            divLog2:false                          
+                        }
+                    });
+                  }, 2500);
+
             } else{
                 const user={
                     nome:this.state.name,
                     senha: this.state.pass
                 }
                 const userString = JSON.stringify(user);
-                alert("Cadastro realizado!");
+                  this.setState((state)=>{
+                    return{
+                        divLog1:true
+                    }
+                });
+                setTimeout(() => {
+                    this.setState((state)=>{
+                        return{
+                            divLog1:false                          
+                        }
+                    });
+                  }, 2500)
                 localStorage.setItem(ind.toString(), userString);
 
             }   
@@ -62,6 +106,7 @@ class App extends React.Component {
                 name: '',
                 pass: '',
                 passc: ''
+                
             }
         });
         ind++;
@@ -76,7 +121,14 @@ class App extends React.Component {
 
            
                 if((this.state.namelog==verif.nome)&&(this.state.passlog==verif.senha)){
-                alert("Login feito");
+                    this.setState((state) =>{
+                        return {
+                            displayName: this.state.namelog,
+                            showSearch: true,
+                            showWelcome: true,
+                            hideLogin: false
+                        }
+                    });
                 check=true;
                
                 }
@@ -84,11 +136,33 @@ class App extends React.Component {
 
         }
         if((this.state.namelog=='')||(this.state.passlog=='')){
-            alert("Preencha os campos corretamente");
+            this.setState((state)=>{
+                return{
+                    divLog5:true
+                }
+            });
+            setTimeout(() => {
+                this.setState((state)=>{
+                    return{
+                        divLog5:false                          
+                    }
+                });
+              }, 2500)
         }
         else{
             if (check==false){
-                alert("Nome ou Senha incorretos.");
+                this.setState((state)=>{
+                    return{
+                        divLog4:true
+                    }
+                });
+                setTimeout(() => {
+                    this.setState((state)=>{
+                        return{
+                            divLog4:false                          
+                        }
+                    });
+                  }, 2500)
            
             
             }
@@ -96,12 +170,8 @@ class App extends React.Component {
         
         this.setState((state) =>{
             return {
-                displayName: this.state.namelog,
                 namelog: '',
-                passlog: '',
-                showSearch: true,
-                showWelcome: true,
-                hideLogin: false
+                passlog: ''
             }
         });
     }
@@ -236,6 +306,16 @@ class App extends React.Component {
                                         <h1>Entrar</h1>
                                         <input type="text" placeholder="Nome" class="inlogin" value={this.state.namelog} onChange={this.handle_change_log.bind(this)} />
                                         <input type="password" placeholder="Senha" class="inlogin" value={this.state.passlog} onChange={this.handle_change_log2.bind(this)}  />
+                                        {
+                                          this.state.divLog4?  
+                                            <div class="divLog">Nome ou Senha incorretos</div>
+                                            :null
+                                        }
+                                        {
+                                          this.state.divLog5?  
+                                            <div class="divLog">Preencha todos os campos</div>
+                                            :null
+                                        }
                                         <button class="log" onClick={this.logar.bind(this)}><h4>Logar</h4></button>
                                     </div>
                                     <div class="popdiv2">
@@ -243,6 +323,21 @@ class App extends React.Component {
                                         <input type="text" placeholder="Nome" class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)} />
                                         <input type="password" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)} />
                                         <input type="password" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)} />
+                                        {
+                                          this.state.divLog3?  
+                                            <div class="divLog">Preencha todos os campos</div>
+                                            :null
+                                        }
+                                        {
+                                          this.state.divLog2?  
+                                            <div class="divLog">Senhas não condizentes</div>
+                                            :null
+                                        }
+                                        {
+                                          this.state.divLog1?  
+                                            <div class="divLog2">Cadastrado!</div>
+                                            :null
+                                        }
                                         <button class="log" onClick={this.cadastrar.bind(this)}><h4>Cadastrar</h4></button>
                                     </div>
 
