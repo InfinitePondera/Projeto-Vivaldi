@@ -157,7 +157,7 @@ class App extends React.Component {
                     });
                     console.log(response);
                 }));
-                if(this.state.verifToken==verif.token){
+                if(this.state.verifToken===verif.token){
                     this.setState((state)=>{
                         return{
                         displayName: this.state.namelog,
