@@ -169,7 +169,7 @@ class App extends React.Component {
                     )    
                         
                     check=true;
-               
+                    break;
                 }
             
 
