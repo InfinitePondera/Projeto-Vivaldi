@@ -1,7 +1,6 @@
 {
   "name": "Projeto-Vivaldi",
   "version": "0.1.0",
-  "homepage": "https://infinitepondera.github.io/Projeto-Vivaldi",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -13,6 +12,7 @@
     "react-scripts": "3.4.3",
     "reactjs-popup": "^2.0.3"
   },
+  "homepage": "https://infinitepondera.github.io/Projeto-Vivaldi",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
