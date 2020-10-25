@@ -33,7 +33,8 @@ class App extends React.Component {
         this.state = { 
             name: '', pass: '', passc: '', idInput: '', job:'', description:'', itemLevel:'', 
             namelog:'', passlog:'', showSearch: false, showWelcome: false, hideLogin: true, displayName: '', divLog2: false,
-            divLog1: false, divLog3: false, divLog4: false, divLog5: false, ind: 0, divErrReg: false, divErrLog: false, verifToken: ''
+            divLog1: false, divLog3: false, divLog4: false, divLog5: false, ind: 0, divErrReg: false, divErrLog: false, 
+            verifToken: '', divLog6: false
         };
         this.loginButton = React.createRef();
         this.welcomeText = React.createRef();
@@ -43,16 +44,18 @@ class App extends React.Component {
         this.divLog3 = React.createRef();
         this.divLog4 = React.createRef();
         this.divLog5 = React.createRef();
+        this.divLog6 = React.createRef();
         this.divErrReg = React.createRef();
         this.divErrLog = React.createRef();
     }
    
     cadastrar() {
-        
+
+       
         if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
             this.setState((state)=>{
                 return{
-                    divLog3:true
+                    divLog3:true // campos vazios
                     
                 }
             });
@@ -64,10 +67,25 @@ class App extends React.Component {
                 });
               }, 2500);
         }else{
+            if((this.state.name.indexOf("@")<1) || (this.state.name.indexOf(".")<7)){
+                this.setState((state)=>{
+                    return{
+                        divLog6:true // email incorreto
+                        
+                    }
+                });
+                setTimeout(() => {
+                    this.setState((state)=>{
+                        return{
+                            divLog6:false                          
+                        }
+                    });
+                  }, 2500);
+            }else{
             if(this.state.pass!=this.state.passc ){
                 this.setState((state)=>{
                     return{
-                        divLog2:true
+                        divLog2:true // senhas divergentes
                         
                     }
                 });
@@ -95,7 +113,7 @@ class App extends React.Component {
                                 localStorage.setItem(this.state.ind.toString(), JSON.stringify(response.data.token));
                                 this.setState((state)=>{
                                     return{
-                                        divLog1:true
+                                        divLog1:true  //cadastrado
                                     }
                                 });
                                 setTimeout(() => {
@@ -112,7 +130,7 @@ class App extends React.Component {
                         if (error.response) {
                             this.setState((state)=>{
                                 return{
-                                    divErrReg:true
+                                    divErrReg:true // não registrou
                                 }
                             });
                             setTimeout(() => {
@@ -127,6 +145,7 @@ class App extends React.Component {
                     });
             }   
         }
+    }
         
         this.setState((state) =>{
             return {
@@ -192,7 +211,7 @@ class App extends React.Component {
             if (check==false){
                 this.setState((state)=>{
                     return{
-                        divLog4:true
+                        divLog4:true //Dados incorretos
                     }
                 });
                 setTimeout(() => {
@@ -343,7 +362,7 @@ class App extends React.Component {
                                 <span id="popspan"class="popspan">
                                     <div class="popdiv1">
                                         <h1>Entrar</h1>
-                                        <input type="text" placeholder="Nome" class="inlogin" value={this.state.namelog} onChange={this.handle_change_log.bind(this)} />
+                                        <input type="text" placeholder="E-mail" class="inlogin" value={this.state.namelog} onChange={this.handle_change_log.bind(this)} />
                                         <input type="password" placeholder="Senha" class="inlogin" value={this.state.passlog} onChange={this.handle_change_log2.bind(this)}  />
                                         {
                                           this.state.divLog4?  
@@ -359,9 +378,14 @@ class App extends React.Component {
                                     </div>
                                     <div class="popdiv2">
                                         <h1>Cadastre-se</h1>
-                                        <input type="text" placeholder="Nome" class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)} />
+                                        <input type="text" placeholder="E-mail" class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)} />
                                         <input type="password" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)} />
                                         <input type="password" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)} />
+                                        {
+                                          this.state.divLog6?  
+                                            <div class="divLog">Email Incorreto</div>
+                                            :null
+                                        }
                                         {
                                           this.state.divLog3?  
                                             <div class="divLog">Preencha todos os campos</div>
