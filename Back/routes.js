@@ -21,6 +21,8 @@ app.get('/', (req, res)=>{
 app.get('/users', (req, res) =>{
     db.collection('users').find().toArray()
         .then(results =>{
+            res.setHeader('Content-Type', 'application/json');
+            res.json(results);
             console.log(results)
         })
         .catch(error => console.error(error))
@@ -53,7 +55,9 @@ app.get('/images', (req, res)=>{
 app.get('/content', (req, res)=>{
     db.collection('content').find().toArray()
         .then(results =>{
-            console.log(results)
+            res.setHeader('Content-Type', 'application/json');
+            res.json(results);
+            console.log(results);
         })
         .catch(error => console.error(error))
 });
