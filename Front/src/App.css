@@ -77,6 +77,34 @@
   border-radius: 5px;
 }
 
+.up{
+  display: flex;
+  height: 38px;
+  align-items: center;
+  background: #09b56f;
+  color:white;
+  border: none;
+  width: 100px;
+  justify-content: center;
+
+  margin-right: 0px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.type{
+  height: 100px;
+  width: 600px;
+  justify-content: flex-start;
+  resize:none;
+  font-size: 16px;
+}
+
+.formup{
+  display: flex;
+  flex-direction: column;
+}
+
 .inlogin{
   
   margin-top: 7px;
