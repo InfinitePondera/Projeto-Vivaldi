@@ -424,6 +424,11 @@ class App extends React.Component {
                         <div class="infomainbackground1">
                         <div class="infomainbackground2">
                             <main class="infomain">
+                                    <form method ="post" encType="multipart/form-data" class="formup">
+                                        <textarea placeholder="Digite algo..." class="type"/>
+                                        <input type="file" name="file" class="choosefile"/>
+                                        <input type="button" value="Upload" class="up"/>
+                                    </form>
                                 
                                     <div id="intro" class="introinfo">
                                         <div class="divintro">
