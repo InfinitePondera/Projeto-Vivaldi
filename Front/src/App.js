@@ -31,7 +31,7 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
-            name: '', pass: '', passc: '', idInput: '', job:'', description:'', itemLevel:'', 
+            name: '', pass: '', passc: '', idInput: '', subject:'', textContent:'', 
             namelog:'', passlog:'', showSearch: false, showWelcome: false, hideLogin: true, displayName: '', divLog2: false,
             divLog1: false, divLog3: false, divLog4: false, divLog5: false, ind: 0, divErrReg: false, divErrLog: false, 
             verifToken: '', divLog6: false
@@ -103,14 +103,12 @@ class App extends React.Component {
 
                 const axios = require('axios');
                     
-                axios.post('https://reqres.in/api/register',{
+                axios.post('http://localhost:3021/users',{
                             email: this.state.name,
                             password: this.state.pass
                     })
                     .then(((response) => {
-                                
-
-                                localStorage.setItem(this.state.ind.toString(), JSON.stringify(response.data.token));
+                                localStorage.setItem(this.state.ind.toString(), /*INFORMAÇÃO A SE GUARDAR AO INVEZ DE TOKEN*/);
                                 this.setState((state)=>{
                                     return{
                                         divLog1:true  //cadastrado
@@ -162,16 +160,16 @@ class App extends React.Component {
         var i;
         var check=false;
         for (i=0; i<localStorage.length;i++){
-            const ver =localStorage.getItem(i);
+            const ver = localStorage.getItem(i);
             const verif = JSON.parse(ver);
 
 
                 const axios = require('axios');
-                axios.post('https://reqres.in/api/login/'+i)
+                axios.post('http://localhost:3021/login') //LINK NOVO RETORNA UM ARRAY COM TODOS OS USUÁRIOS, TROCAR ESSE CODIGO
                 .then(((response) => {
                     this.setState((state)=>{
                         return{
-                            verifToken: response.data.token
+                            verifToken: response.data.token //REMOVER TODAS AS MENÇÕES A TOKEN E MUDAR PRA SESSIONS, SEI LA COMO FUNCIONA
                         }
                     });
                     console.log(response);
@@ -267,19 +265,15 @@ class App extends React.Component {
 
     IDSearch() {
         const axios = require('axios');
-        var valor = this.state.idInput;
-        axios.get('https://xivapi.com/item/' + valor + "?columns=Name,Description,LevelItem,ClassJobCategory.Name")
+        var palavrachave = this.state.idInput;
+        axios.get('http://localhost:3021/content?pesquisa='+ palavrachave)
             .then(((response) => {
                 this.setState({
-                    job: response.data.ClassJobCategory.Name,
-                    name: response.data.Name,
-                    description: response.data.Description,
-                    itemLevel: response.data.LevelItem,
+                    subject: response.data.subject,
+                    textContent: response.data.textContent,
                 });
             }));
     };
-
-
 
     render() {
         return (

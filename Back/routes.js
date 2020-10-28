@@ -19,7 +19,7 @@ app.get('/', (req, res)=>{
 });
 //buscar ususarios 
 app.get('/users', (req, res) =>{
-    db.collection('users').find().toArray()
+    db.collection('users').findAll().toArray()
         .then(results =>{
             res.setHeader('Content-Type', 'application/json');
             res.json(results);
@@ -53,7 +53,7 @@ app.get('/images', (req, res)=>{
 });
 //buscar algum texto
 app.get('/content', (req, res)=>{
-    db.collection('content').find().toArray()
+    db.collection('content').find(res.query.pesquisa)
         .then(results =>{
             res.setHeader('Content-Type', 'application/json');
             res.json(results);
