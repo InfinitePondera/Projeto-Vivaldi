@@ -12,7 +12,7 @@ router.post('/', function(req, res, next){
     let login= req.body.name;
 
     if(login===/**/&&password===/* */){
-        req.session.name =  req.body.name;
+        req.session.email =  req.body.email;
         return ;
     } 
 });

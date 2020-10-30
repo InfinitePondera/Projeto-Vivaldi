@@ -1,16 +1,18 @@
 const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
-MongoClient.connect(/*LINK DO BANCO*/, { useUnifiedTopology: true })
+app.use(cors());
+
+MongoClient.connect('mongodb://127.0.0.1:27017/Vivaldi', { useUnifiedTopology: true })
   .then(client => {
-    console.log('Connected to Database')
-    const db = client.db(/*NOME DO BANCO*/)
-    const usersCollection = db.collection('users')
-    const contentsCollection = db.collection('contents')
+    const dba = client.db('Vivaldi')
+    console.log('Connected to Database') 
 });
 
 app.listen(3021, function(){
+    
     console.log('Ouvindo em 3021')
 });
 //função teste
@@ -19,18 +21,19 @@ app.get('/', (req, res)=>{
 });
 //buscar ususarios 
 app.get('/users', (req, res) =>{
-    db.collection('users').findAll().toArray()
+    dba.collection('users').findAll().toArray()
         .then(results =>{
-            res.setHeader('Content-Type', 'application/json');
-            res.json(results);
+            //res.setHeader('Access-Control-Allow-Origin', '*');
+            res.end(results);
             console.log(results)
         })
         .catch(error => console.error(error))
 });
 //cadastrar usuario
 app.post('/users', (req, res) =>{
-    usersCollection.insertOne(req.body)
+    dba.collection('users').insertOne(req.body)
         .then(result =>{
+            //res.setHeader('Access-Control-Allow-Origin', '*');
             console.log(result);
         })
         .catch(error => console.error(error))
@@ -41,7 +44,7 @@ app.post('/images', (req, res)=>{
 });
 //postar algum texto
 app.post('/content', (req, res)=>{
-    contentsCollection.insertOne(req.body)
+     dba.collection('contents').insertOne(req.body)
         .then(result =>{
             console.log(result);
         })
@@ -53,7 +56,7 @@ app.get('/images', (req, res)=>{
 });
 //buscar algum texto
 app.get('/content', (req, res)=>{
-    db.collection('content').find(res.query.pesquisa)
+    dba.collection('contents').find(res.query.pesquisa)
         .then(results =>{
             res.setHeader('Content-Type', 'application/json');
             res.json(results);

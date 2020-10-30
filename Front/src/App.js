@@ -26,6 +26,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 
+
 class App extends React.Component {
     
     constructor(props) {
@@ -50,8 +51,7 @@ class App extends React.Component {
     }
    
     cadastrar() {
-
-       
+        
         if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
             this.setState((state)=>{
                 return{
@@ -98,9 +98,6 @@ class App extends React.Component {
                   }, 2500);
 
             } else{
-                
-                
-
                 const axios = require('axios');
                     
                 axios.post('http://localhost:3021/users',{
@@ -108,7 +105,6 @@ class App extends React.Component {
                             password: this.state.pass
                     })
                     .then(((response) => {
-                                localStorage.setItem(this.state.ind.toString(), /*INFORMAÇÃO A SE GUARDAR AO INVEZ DE TOKEN*/);
                                 this.setState((state)=>{
                                     return{
                                         divLog1:true  //cadastrado
@@ -121,8 +117,7 @@ class App extends React.Component {
                                         }
                                     });
                                   }, 2500)
-                                  console.log(response);
-                                  this.state.ind++;                            
+                                  console.log(response);                        
                     }))
                     .catch(function (error) {
                         if (error.response) {
@@ -157,40 +152,31 @@ class App extends React.Component {
     }
 
     logar(){
-        var i;
-        var check=false;
-        for (i=0; i<localStorage.length;i++){
-            const ver = localStorage.getItem(i);
-            const verif = JSON.parse(ver);
-
-
+        var check;
+        var resposta;
                 const axios = require('axios');
-                axios.post('http://localhost:3021/login') //LINK NOVO RETORNA UM ARRAY COM TODOS OS USUÁRIOS, TROCAR ESSE CODIGO
+                axios.get('http://localhost:3021/users') //LINK NOVO RETORNA UM ARRAY COM TODOS OS USUÁRIOS, TROCAR ESSE CODIGO
                 .then(((response) => {
                     this.setState((state)=>{
                         return{
-                            verifToken: response.data.token //REMOVER TODAS AS MENÇÕES A TOKEN E MUDAR PRA SESSIONS, SEI LA COMO FUNCIONA
+                            resposta: JSON.parse(response.data),//REMOVER TODAS AS MENÇÕES A TOKEN E MUDAR PRA SESSIONS, SEI LA COMO FUNCIONA
                         }
                     });
                     console.log(response);
                 }));
-                if(this.state.verifToken===verif.token){
-                    this.setState((state)=>{
-                        return{
-                        displayName: this.state.namelog,
-                        hideLogin:false,
-                        showWelcome: true,
-                        showSearch: true
+                for(var i; i <= resposta.length(); i++){
+                    if(resposta.email[i] === this.state.namelog && resposta.password[i] === this.state.passlog){
+                        this.setState((state)=>{
+                            return{
+                            displayName: this.state.namelog,
+                            hideLogin:false,
+                            showWelcome: true,
+                            showSearch: true
+                            }
                         }
+                        )    
                     }
-                    )    
-                        
-                    check=true;
-                    break;
-                }
-            
-
-        }
+                }   
         if((this.state.namelog=='')||(this.state.passlog=='')){
             this.setState((state)=>{
                 return{
