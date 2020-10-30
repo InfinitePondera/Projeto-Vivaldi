@@ -1,14 +1,20 @@
 const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require ('body-parser');
 const app = express();
+
+
 
 app.use(cors());
 
-MongoClient.connect('mongodb://127.0.0.1:27017/Vivaldi', { useUnifiedTopology: true })
+app.use(bodyParser.urlencoded({ extended: true }));
+
+  MongoClient.connect('mongodb://127.0.0.1:27017/Vivaldi', { useUnifiedTopology: true })
   .then(client => {
-    const dba = client.db('Vivaldi')
-    console.log('Connected to Database') 
+    dba = client.db('Vivaldi');
+    
+    console.log('Connected to Database') ;
 });
 
 app.listen(3021, function(){
@@ -21,7 +27,7 @@ app.get('/', (req, res)=>{
 });
 //buscar ususarios 
 app.get('/users', (req, res) =>{
-    dba.collection('users').findAll().toArray()
+    dba.collection('user').findAll().toArray()
         .then(results =>{
             //res.setHeader('Access-Control-Allow-Origin', '*');
             res.end(results);
@@ -31,9 +37,10 @@ app.get('/users', (req, res) =>{
 });
 //cadastrar usuario
 app.post('/users', (req, res) =>{
-    dba.collection('users').insertOne(req.body)
+    dba.collection('user').insertOne(req.body)
         .then(result =>{
             //res.setHeader('Access-Control-Allow-Origin', '*');
+            
             console.log(result);
         })
         .catch(error => console.error(error))
