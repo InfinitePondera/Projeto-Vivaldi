@@ -51,7 +51,8 @@ class App extends React.Component {
     }
    
     cadastrar() {
-        
+        var email = this.state.name;
+        var senha = this.state.pass;
         if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
             this.setState((state)=>{
                 return{
@@ -100,10 +101,15 @@ class App extends React.Component {
             } else{
                 const axios = require('axios');
                     
-                axios.post('http://localhost:3021/users',{
-                            email: this.state.name,
-                            password: this.state.pass
-                    })
+                axios.post('http://localhost:3021/user',/*data:*/{
+                            email,
+                            senha
+                    },{
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    }
+                    )
                     .then(((response) => {
                                 this.setState((state)=>{
                                     return{

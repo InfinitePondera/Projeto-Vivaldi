@@ -26,7 +26,7 @@ app.get('/', (req, res)=>{
     res.send('fala brow2')
 });
 //buscar ususarios 
-app.get('/users', (req, res) =>{
+app.get('/user', (req, res) =>{
     dba.collection('user').findAll().toArray()
         .then(results =>{
             //res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,12 +36,12 @@ app.get('/users', (req, res) =>{
         .catch(error => console.error(error))
 });
 //cadastrar usuario
-app.post('/users', (req, res) =>{
-    dba.collection('user').insertOne(req.body)
+app.post('/user', (req, res) =>{
+    dba.collection('user').insertOne({email: req.body.email, password: req.body.password})
         .then(result =>{
             //res.setHeader('Access-Control-Allow-Origin', '*');
             
-            console.log(result);
+            console.log(req.body);
         })
         .catch(error => console.error(error))
 });
