@@ -3,9 +3,13 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require ('body-parser');
 const app = express();
+var session = require('express-session');
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(session({
+    secret:'s3crets'
+}));
 
 MongoClient.connect('mongodb://127.0.0.1:27017/Vivaldi', { useUnifiedTopology: true })
   .then(client => {
@@ -26,6 +30,8 @@ app.get('/user', (req, res) =>{
     dba.collection('user').findAll().toArray()
         .then(results =>{
             //res.setHeader('Access-Control-Allow-Origin', '*');
+            
+            
             res.end(results);
             console.log(results)
         })
@@ -33,11 +39,23 @@ app.get('/user', (req, res) =>{
 });
 //cadastrar usuario
 app.post('/user', (req, res) =>{
-    dba.collection('user').insertOne(req.body)
+    const user =dba.collection('user').findOne(req.email);
+
+    if(user){
+        console.log('Deu ruim');
+    }else{
+        dba.collection('user').insertOne(req.body)
         .then(result =>{
-            console.log(req.body);
+        req.session.email = req.body.email;
+           console.log(req.body);
         })
         .catch(error => console.error(error))
+    }
+    
+        
+    
+    
+    
 });
 //postar imagem
 app.post('/images', (req, res)=>{

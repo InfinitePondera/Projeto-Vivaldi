@@ -28,13 +28,13 @@ import 'reactjs-popup/dist/index.css';
 
 
 class App extends React.Component {
-    
+
     constructor(props) {
         super(props)
-        this.state = { 
-            name: '', pass: '', passc: '', idInput: '', subject:'', textContent:'', 
-            namelog:'', passlog:'', showSearch: false, showWelcome: false, hideLogin: true, displayName: '', divLog2: false,
-            divLog1: false, divLog3: false, divLog4: false, divLog5: false, ind: 0, divErrReg: false, divErrLog: false, 
+        this.state = {
+            name: '', pass: '', passc: '', idInput: '', subject: '', textContent: '',
+            namelog: '', passlog: '', showSearch: false, showWelcome: false, hideLogin: true, displayName: '', divLog2: false,
+            divLog1: false, divLog3: false, divLog4: false, divLog5: false, ind: 0, divErrReg: false, divErrLog: false,
             verifToken: '', divLog6: false
         };
         this.loginButton = React.createRef();
@@ -49,172 +49,172 @@ class App extends React.Component {
         this.divErrReg = React.createRef();
         this.divErrLog = React.createRef();
     }
-   
+
     cadastrar() {
         var email = this.state.name;
         var senha = this.state.pass;
-        if((this.state.name=='')||(this.state.pass=='')||(this.state.passc=='')){
-            this.setState((state)=>{
-                return{
-                    divLog3:true // campos vazios
-                    
+        if ((this.state.name == '') || (this.state.pass == '') || (this.state.passc == '')) {
+            this.setState((state) => {
+                return {
+                    divLog3: true // campos vazios
+
                 }
             });
             setTimeout(() => {
-                this.setState((state)=>{
-                    return{
-                        divLog3:false                          
+                this.setState((state) => {
+                    return {
+                        divLog3: false
                     }
                 });
-              }, 2500);
-        }else{
-            if((this.state.name.indexOf("@")<1) || (this.state.name.indexOf(".")<7)){
-                this.setState((state)=>{
-                    return{
-                        divLog6:true // email incorreto
-                        
-                    }
-                });
-                setTimeout(() => {
-                    this.setState((state)=>{
-                        return{
-                            divLog6:false                          
-                        }
-                    });
-                  }, 2500);
-            }else{
-            if(this.state.pass!=this.state.passc ){
-                this.setState((state)=>{
-                    return{
-                        divLog2:true // senhas divergentes
-                        
-                    }
-                });
-                setTimeout(() => {
-                    this.setState((state)=>{
-                        return{
-                            divLog2:false                          
-                        }
-                    });
-                  }, 2500);
+            }, 2500);
+        } else {
+            if ((this.state.name.indexOf("@") < 1) || (this.state.name.indexOf(".") < 7)) {
+                this.setState((state) => {
+                    return {
+                        divLog6: true // email incorreto
 
-            } else{
-                const axios = require('axios');
-                const insertion = {
-                    email: this.state.name,
-                    senha: this.state.pass
-                }
-                axios.post('http://localhost:3021/user',{
-                    email: this.state.name,
-                    senha: this.state.pass
-                })
-                    .then(((response) => {
-                                this.setState((state)=>{
-                                    return{
-                                        divLog1:true  //cadastrado
+                    }
+                });
+                setTimeout(() => {
+                    this.setState((state) => {
+                        return {
+                            divLog6: false
+                        }
+                    });
+                }, 2500);
+            } else {
+                if (this.state.pass != this.state.passc) {
+                    this.setState((state) => {
+                        return {
+                            divLog2: true // senhas divergentes
+
+                        }
+                    });
+                    setTimeout(() => {
+                        this.setState((state) => {
+                            return {
+                                divLog2: false
+                            }
+                        });
+                    }, 2500);
+
+                } else {
+                    const axios = require('axios');
+
+                    axios.post('http://localhost:3021/user', {
+                        email: this.state.name,
+                        senha: this.state.pass
+                    })
+                        .then(((response) => {
+                            
+                                this.setState((state) => {
+                                    return {
+                                        divLog1: true  //cadastrado
                                     }
                                 });
                                 setTimeout(() => {
-                                    this.setState((state)=>{
-                                        return{
-                                            divLog1:false                          
+                                    this.setState((state) => {
+                                        return {
+                                            divLog1: false
                                         }
                                     });
-                                  }, 2500)
-                                  console.log(response);                        
-                    }))
-                    .catch(function (error) {
-                        if (error.response) {
-                            this.setState((state)=>{
-                                return{
-                                    divErrReg:true // não registrou
-                                }
-                            });
-                            setTimeout(() => {
-                                this.setState((state)=>{
-                                    return{
-                                        divErrReg:false                          
+                                }, 2500)
+                                console.log(response);
+                            
+
+                        }))
+                        .catch(function (error) {
+                            if (error.response) {
+                                this.setState((state) => {
+                                    return {
+                                        divErrReg: true // não registrou
                                     }
                                 });
-                              }, 2500)
-                          console.log(error.response)
-                        }
-                    });
-            }   
+                                setTimeout(() => {
+                                    this.setState((state) => {
+                                        return {
+                                            divErrReg: false
+                                        }
+                                    });
+                                }, 2500)
+                                console.log(error.response)
+                            }
+                        });
+                }
+            }
         }
-    }
-        
-        this.setState((state) =>{
+
+        this.setState((state) => {
             return {
                 name: '',
                 pass: '',
                 passc: ''
-                
+
             }
         });
-        
+
     }
 
-    logar(){
+    logar() {
         var check;
         var resposta;
-                const axios = require('axios');
-                axios.get('http://localhost:3021/users') //LINK NOVO RETORNA UM ARRAY COM TODOS OS USUÁRIOS, TROCAR ESSE CODIGO
-                .then(((response) => {
-                    this.setState((state)=>{
-                        return{
-                            resposta: JSON.parse(response.data),//REMOVER TODAS AS MENÇÕES A TOKEN E MUDAR PRA SESSIONS, SEI LA COMO FUNCIONA
-                        }
-                    });
-                    console.log(response);
-                }));
-                for(var i; i <= resposta.length(); i++){
-                    if(resposta.email[i] === this.state.namelog && resposta.password[i] === this.state.passlog){
-                        this.setState((state)=>{
-                            return{
-                            displayName: this.state.namelog,
-                            hideLogin:false,
-                            showWelcome: true,
-                            showSearch: true
-                            }
-                        }
-                        )    
+        const axios = require('axios');
+        axios.get('http://localhost:3021/users') //LINK NOVO RETORNA UM ARRAY COM TODOS OS USUÁRIOS, TROCAR ESSE CODIGO
+            .then(((response) => {
+                this.setState((state) => {
+                    return {
+                        resposta: JSON.parse(response.data)//REMOVER TODAS AS MENÇÕES A TOKEN E MUDAR PRA SESSIONS, SEI LA COMO FUNCIONA
                     }
-                }   
-        if((this.state.namelog=='')||(this.state.passlog=='')){
-            this.setState((state)=>{
-                return{
-                    divLog5:true
+                });
+                console.log(response);
+            }));
+        for (var i; i <= resposta.length(); i++) {
+            if (resposta.email === this.state.namelog && resposta.password === this.state.passlog) {
+                this.setState((state) => {
+                    return {
+                        displayName: this.state.namelog,
+                        hideLogin: false,
+                        showWelcome: true,
+                        showSearch: true
+                    }
+                }
+                )
+            }
+        }
+        if ((this.state.namelog == '') || (this.state.passlog == '')) {
+            this.setState((state) => {
+                return {
+                    divLog5: true
                 }
             });
             setTimeout(() => {
-                this.setState((state)=>{
-                    return{
-                        divLog5:false                          
+                this.setState((state) => {
+                    return {
+                        divLog5: false
                     }
                 });
-              }, 2500)
+            }, 2500)
         }
-        else{
-            if (check==false){
-                this.setState((state)=>{
-                    return{
-                        divLog4:true //Dados incorretos
+        else {
+            if (check == false) {
+                this.setState((state) => {
+                    return {
+                        divLog4: true //Dados incorretos
                     }
                 });
                 setTimeout(() => {
-                    this.setState((state)=>{
-                        return{
-                            divLog4:false                          
+                    this.setState((state) => {
+                        return {
+                            divLog4: false
                         }
                     });
-                  }, 2500)
-           
-            
+                }, 2500)
+
+
             }
         }
-        
-        this.setState((state) =>{
+
+        this.setState((state) => {
             return {
                 namelog: '',
                 passlog: ''
@@ -222,7 +222,7 @@ class App extends React.Component {
         });
     }
 
-    
+
 
     handle_change(ev) {
         this.setState({ name: ev.target.value });
@@ -239,12 +239,12 @@ class App extends React.Component {
         this.setState({ passc: ev.target.value });
     }
 
-    handle_change_log(ev){
-        this.setState({namelog: ev.target.value})
+    handle_change_log(ev) {
+        this.setState({ namelog: ev.target.value })
     }
 
-    handle_change_log2(ev){
-        this.setState({passlog: ev.target.value})
+    handle_change_log2(ev) {
+        this.setState({ passlog: ev.target.value })
     }
 
     mudarEstado(ev) {
@@ -256,7 +256,7 @@ class App extends React.Component {
     IDSearch() {
         const axios = require('axios');
         var palavrachave = this.state.idInput;
-        axios.get('http://localhost:3021/content?pesquisa='+ palavrachave)
+        axios.get('http://localhost:3021/content?pesquisa=' + palavrachave)
             .then(((response) => {
                 this.setState({
                     subject: response.data.subject,
@@ -309,111 +309,111 @@ class App extends React.Component {
                             <h4>Download</h4>
                         </button>
                         {
-                            this.state.showSearch?
-                            <Popup trigger={
-                                <button ref={this.searchButton} class="login">
-                                    <h4>Pesquisar</h4>
-                                </button>} modal>
-                                <span class="popspanSearch">
-                                    <div class="popdivSearch">
-                                        <h1>Pesquisar por item</h1>
-                                        <div class="APIContainerDiv">
-                                            <input type="text" id="searchInput" placeholder="ID do item..." class="popSearchBar" value={this.state.idInput} onChange={this.mudarEstado.bind(this)} />
-                                            <button onClick={this.IDSearch.bind(this)} class="popSearchButton"><h4>Pesquisar</h4></button>
-                                        </div>
-                                        <div class="popdivResults">
-                                            <h2>Job: <span>{this.state.job}</span></h2>
-                                            
-                                            <h2>Nome: <span>{this.state.name}</span></h2>
-                                            
-                                            <h2>Descrição: <span>{this.state.description}</span></h2>
-                                            
-                                            <h2>Nível: <span>{this.state.itemLevel}</span></h2>
-                                            
-                                        </div>
+                            this.state.showSearch ?
+                                <Popup trigger={
+                                    <button ref={this.searchButton} class="login">
+                                        <h4>Pesquisar</h4>
+                                    </button>} modal>
+                                    <span class="popspanSearch">
+                                        <div class="popdivSearch">
+                                            <h1>Pesquisar por item</h1>
+                                            <div class="APIContainerDiv">
+                                                <input type="text" id="searchInput" placeholder="ID do item..." class="popSearchBar" value={this.state.idInput} onChange={this.mudarEstado.bind(this)} />
+                                                <button onClick={this.IDSearch.bind(this)} class="popSearchButton"><h4>Pesquisar</h4></button>
+                                            </div>
+                                            <div class="popdivResults">
+                                                <h2>Job: <span>{this.state.job}</span></h2>
 
-                                    </div>
-                                </span>
-                            </Popup>
-                            :null
+                                                <h2>Nome: <span>{this.state.name}</span></h2>
+
+                                                <h2>Descrição: <span>{this.state.description}</span></h2>
+
+                                                <h2>Nível: <span>{this.state.itemLevel}</span></h2>
+
+                                            </div>
+
+                                        </div>
+                                    </span>
+                                </Popup>
+                                : null
                         }
                         {
-                            this.state.hideLogin?
-                            <Popup trigger={
-                                <button ref={this.loginButton} class="login">
-                                    <h4>Login</h4>
-                                </button>} modal>
-                                <span id="popspan"class="popspan">
-                                    <div class="popdiv1">
-                                        <h1>Entrar</h1>
-                                        <input type="text" placeholder="E-mail" class="inlogin" value={this.state.namelog} onChange={this.handle_change_log.bind(this)} />
-                                        <input type="password" placeholder="Senha" class="inlogin" value={this.state.passlog} onChange={this.handle_change_log2.bind(this)}  />
-                                        {
-                                          this.state.divLog4?  
-                                            <div class="divLog">Nome ou Senha incorretos</div>
-                                            :null
-                                        }
-                                        {
-                                          this.state.divLog5?  
-                                            <div class="divLog">Preencha todos os campos</div>
-                                            :null
-                                        }
-                                        <button class="log" onClick={this.logar.bind(this)}><h4>Logar</h4></button>
-                                    </div>
-                                    <div class="popdiv2">
-                                        <h1>Cadastre-se</h1>
-                                        <input type="text" placeholder="E-mail" class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)} />
-                                        <input type="password" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)} />
-                                        <input type="password" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)} />
-                                        {
-                                          this.state.divLog6?  
-                                            <div class="divLog">Email Incorreto</div>
-                                            :null
-                                        }
-                                        {
-                                          this.state.divLog3?  
-                                            <div class="divLog">Preencha todos os campos</div>
-                                            :null
-                                        }
-                                        {
-                                          this.state.divLog2?  
-                                            <div class="divLog">Senhas não condizentes</div>
-                                            :null
-                                        }
-                                        {
-                                          this.state.divLog1?  
-                                            <div class="divLog2">Cadastrado!</div>
-                                            :null
-                                        }
-                                        {
-                                            this.state.divErrReg?
-                                            <div class="divLog">Erro ao cadastrar</div>
-                                            :null
-                                        }
-                                        <button class="log" onClick={this.cadastrar.bind(this)}><h4>Cadastrar</h4></button>
-                                    </div>
+                            this.state.hideLogin ?
+                                <Popup trigger={
+                                    <button ref={this.loginButton} class="login">
+                                        <h4>Login</h4>
+                                    </button>} modal>
+                                    <span id="popspan" class="popspan">
+                                        <div class="popdiv1">
+                                            <h1>Entrar</h1>
+                                            <input type="text" placeholder="E-mail" class="inlogin" value={this.state.namelog} onChange={this.handle_change_log.bind(this)} />
+                                            <input type="password" placeholder="Senha" class="inlogin" value={this.state.passlog} onChange={this.handle_change_log2.bind(this)} />
+                                            {
+                                                this.state.divLog4 ?
+                                                    <div class="divLog">Nome ou Senha incorretos</div>
+                                                    : null
+                                            }
+                                            {
+                                                this.state.divLog5 ?
+                                                    <div class="divLog">Preencha todos os campos</div>
+                                                    : null
+                                            }
+                                            <button class="log" onClick={this.logar.bind(this)}><h4>Logar</h4></button>
+                                        </div>
+                                        <div class="popdiv2">
+                                            <h1>Cadastre-se</h1>
+                                            <input type="text" placeholder="E-mail" class="inlogin" value={this.state.name} onChange={this.handle_change.bind(this)} />
+                                            <input type="password" placeholder="Senha" class="inlogin" value={this.state.pass} onChange={this.handle_change2.bind(this)} />
+                                            <input type="password" placeholder=" Confirmar Senha" class="inlogin" value={this.state.passc} onChange={this.handle_change3.bind(this)} />
+                                            {
+                                                this.state.divLog6 ?
+                                                    <div class="divLog">Email Incorreto</div>
+                                                    : null
+                                            }
+                                            {
+                                                this.state.divLog3 ?
+                                                    <div class="divLog">Preencha todos os campos</div>
+                                                    : null
+                                            }
+                                            {
+                                                this.state.divLog2 ?
+                                                    <div class="divLog">Senhas não condizentes</div>
+                                                    : null
+                                            }
+                                            {
+                                                this.state.divLog1 ?
+                                                    <div class="divLog2">Cadastrado!</div>
+                                                    : null
+                                            }
+                                            {
+                                                this.state.divErrReg ?
+                                                    <div class="divLog">Erro ao cadastrar</div>
+                                                    : null
+                                            }
+                                            <button class="log" onClick={this.cadastrar.bind(this)}><h4>Cadastrar</h4></button>
+                                        </div>
 
-                                </span>
+                                    </span>
 
-                            </Popup>
-                            :null
+                                </Popup>
+                                : null
                         }
-                        {   
-                            this.state.showWelcome?
-                            <span ref={this.welcomeText} class="welcomeShow">Bem-vindo, {this.state.displayName}</span>
-                            :null
+                        {
+                            this.state.showWelcome ?
+                                <span ref={this.welcomeText} class="welcomeShow">Bem-vindo, {this.state.displayName}</span>
+                                : null
                         }
                     </div>
                     <div class="navbarborder">
                         <div class="infomainbackground1">
-                        <div class="infomainbackground2">
-                            <main class="infomain">
-                                    <form method ="post" encType="multipart/form-data" class="formup">
-                                        <textarea placeholder="Digite algo..." class="type"/>
-                                        <input type="file" name="file" class="choosefile"/>
-                                        <input type="button" value="Upload" class="up"/>
+                            <div class="infomainbackground2">
+                                <main class="infomain">
+                                    <form method="post" encType="multipart/form-data" class="formup">
+                                        <textarea placeholder="Digite algo..." class="type" />
+                                        <input type="file" name="file" class="choosefile" />
+                                        <input type="button" value="Upload" class="up" />
                                     </form>
-                                
+
                                     <div id="intro" class="introinfo">
                                         <div class="divintro">
                                             <div>
@@ -443,8 +443,8 @@ class App extends React.Component {
                                             </video>
                                         </div>
                                     </div>
-                                
-                                    
+
+
                                     <div id="firstinfo" class="firstinfo">
                                         <div class="firstinfo1">
                                             <div>
@@ -732,202 +732,202 @@ class App extends React.Component {
                                     </div>
 
                                 </main>
+                            </div>
+                        </div>
+                        <footer>
+                            <div id="footcontainer" class="footcontainer">
+                                <div id="subscribenewsletter" class="footcontainerstyling">
+                                    <a href="">Inscreva-se no nosso boletim informativo</a>
                                 </div>
-                                </div>
-                            <footer>
-                                <div id="footcontainer" class="footcontainer">
-                                    <div id="subscribenewsletter" class="footcontainerstyling">
-                                        <a href="">Inscreva-se no nosso boletim informativo</a>
+                                <div id="quicklinks" class="quicklinks">
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <a href="">Desktop</a>
+                                            </li>
+                                            <br />
+                                            <br />
+                                            <li>
+                                                <a href="">Baixar Vivaldi</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Funcionalidades</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Gerenciamento de Abas</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Interface de Usuário</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Personalização</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Navegação</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Mouse & Teclado</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Privacidade & Segurança</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Ferramentas</a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div id="quicklinks" class="quicklinks">
-                                        <div>
-                                            <ul>
-                                                <li>
-                                                    <a href="">Desktop</a>
-                                                </li>
-                                                <br />
-                                                <br />
-                                                <li>
-                                                    <a href="">Baixar Vivaldi</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Funcionalidades</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Gerenciamento de Abas</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Interface de Usuário</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Personalização</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Navegação</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Mouse & Teclado</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Privacidade & Segurança</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Ferramentas</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <ul>
-                                                <li>
-                                                    <a href="">Móvel</a>
-                                                </li>
-                                                <br />
-                                                <br />
-                                                <li>
-                                                    <a href="">Vivaldi para Android</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <ul>
-                                                <li>
-                                                    <a href="">Notícias</a>
-                                                </li>
-                                                <br />
-                                                <br />
-                                                <li>
-                                                    <a href="">Blog Vivaldi</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Snapshots</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Cobertura da Imprensa</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Comunicados da Imprensa</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <ul>
-                                                <li>
-                                                    <a href="">Ajuda</a>
-                                                </li>
-                                                <br />
-                                                <br />
-                                                <li>
-                                                    <a href="">Página de Ajuda do Vivaldi</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Fórum</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Para Começar</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Tutoriais</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Reportar um problema</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Contato</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <ul>
-                                                <li>
-                                                    <a href="">Comunidade</a>
-                                                </li>
-                                                <br />
-                                                <br />
-                                                <li>
-                                                    <a href="">Blogs</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Fórum</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Webmail</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Material Promocional</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Banners</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Sobre</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <ul>
-                                                <li>
-                                                    <a href="">Sobre</a>
-                                                </li>
-                                                <br />
-                                                <br />
-                                                <li>
-                                                    <a href="">No Que Acreditamos</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Nós não te rastreamos</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Privacidade & Termos</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Segurança</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Nosso Time</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Empregos</a>
-                                                </li>
-                                                <br />
-                                                <li>
-                                                    <a href="">Imprensa</a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <a href="">Móvel</a>
+                                            </li>
+                                            <br />
+                                            <br />
+                                            <li>
+                                                <a href="">Vivaldi para Android</a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div id="trademarks" class="trademarks">
-                                        <img src={cropped} alt="Logo do Vivaldi" class="footerlogostyling" />
-                                        <p class="footerparagraphstyling">© Vivaldi Technologies™ — Todos os direitos reservados.</p>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <a href="">Notícias</a>
+                                            </li>
+                                            <br />
+                                            <br />
+                                            <li>
+                                                <a href="">Blog Vivaldi</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Snapshots</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Cobertura da Imprensa</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Comunicados da Imprensa</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <a href="">Ajuda</a>
+                                            </li>
+                                            <br />
+                                            <br />
+                                            <li>
+                                                <a href="">Página de Ajuda do Vivaldi</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Fórum</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Para Começar</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Tutoriais</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Reportar um problema</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Contato</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <a href="">Comunidade</a>
+                                            </li>
+                                            <br />
+                                            <br />
+                                            <li>
+                                                <a href="">Blogs</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Fórum</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Webmail</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Material Promocional</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Banners</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Sobre</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <a href="">Sobre</a>
+                                            </li>
+                                            <br />
+                                            <br />
+                                            <li>
+                                                <a href="">No Que Acreditamos</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Nós não te rastreamos</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Privacidade & Termos</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Segurança</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Nosso Time</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Empregos</a>
+                                            </li>
+                                            <br />
+                                            <li>
+                                                <a href="">Imprensa</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </footer>
-                        
+                                <div id="trademarks" class="trademarks">
+                                    <img src={cropped} alt="Logo do Vivaldi" class="footerlogostyling" />
+                                    <p class="footerparagraphstyling">© Vivaldi Technologies™ — Todos os direitos reservados.</p>
+                                </div>
+                            </div>
+                        </footer>
+
                     </div>
                 </body>
             </div>
