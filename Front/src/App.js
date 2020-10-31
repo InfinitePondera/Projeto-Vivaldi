@@ -100,16 +100,14 @@ class App extends React.Component {
 
             } else{
                 const axios = require('axios');
-                    
-                axios.post('http://localhost:3021/user',/*data:*/{
-                            email,
-                            senha
-                    },{
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    }
-                    )
+                const insertion = {
+                    email: this.state.name,
+                    senha: this.state.pass
+                }
+                axios.post('http://localhost:3021/user',{
+                    email: this.state.name,
+                    senha: this.state.pass
+                })
                     .then(((response) => {
                                 this.setState((state)=>{
                                     return{

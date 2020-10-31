@@ -4,21 +4,17 @@ const cors = require('cors');
 const bodyParser = require ('body-parser');
 const app = express();
 
-
-
 app.use(cors());
+app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
-  MongoClient.connect('mongodb://127.0.0.1:27017/Vivaldi', { useUnifiedTopology: true })
+MongoClient.connect('mongodb://127.0.0.1:27017/Vivaldi', { useUnifiedTopology: true })
   .then(client => {
     dba = client.db('Vivaldi');
     
-    console.log('Connected to Database') ;
+    console.log('Connected to Database');
 });
 
 app.listen(3021, function(){
-    
     console.log('Ouvindo em 3021')
 });
 //função teste
@@ -37,10 +33,8 @@ app.get('/user', (req, res) =>{
 });
 //cadastrar usuario
 app.post('/user', (req, res) =>{
-    dba.collection('user').insertOne({email: req.body.email, password: req.body.password})
+    dba.collection('user').insertOne(req.body)
         .then(result =>{
-            //res.setHeader('Access-Control-Allow-Origin', '*');
-            
             console.log(req.body);
         })
         .catch(error => console.error(error))
@@ -54,6 +48,7 @@ app.post('/content', (req, res)=>{
      dba.collection('contents').insertOne(req.body)
         .then(result =>{
             console.log(result);
+            console.log("inserido com sucesso");
         })
         .catch(error => console.error(error))
 });
