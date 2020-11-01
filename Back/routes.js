@@ -41,20 +41,41 @@ app.get('/user', (req, res) =>{
 });
 //cadastrar usuario
 app.post('/user', (req, res) =>{
-    const user = dba.collection('user').findOne({email: req.body.email});
-    if(/*COMPARAÇÃO PRA SABER SE USUARIO JA EXISTE*/){
-        res.status(2121).send({message: 'Usuario já existe'})
-        console.log('Deu ruim, email ja existe');
-    }else{
-        dba.collection('user').insertOne(req.body)
-        .then(result =>{
-            req.session.email = req.body.email;
-            res.send('registrado tudo ok');
-            console.log(user);
-            console.log(req.body);
-        })
-        .catch(error => console.error(error))
-    }
+    var user = false;
+    dba.collection('user')
+    .find({email: req.body.email})
+    .toArray((err, docs)=>{
+        if(docs.length>0){
+            user= true;
+         }else{
+            user = false;
+         }
+         if(user=== true){
+            res.status(404).send({message: 'Usuario já existe'})
+            console.log('Deu ruim, email ja existe');
+        }
+       else{
+            dba.collection('user').insertOne(req.body)
+            .then(result =>{
+                req.session.email = req.body.email;
+                res.send('registrado tudo ok');
+                console.log(user);
+                console.log(req.body.email);
+            })
+            .catch(error => console.error(error))
+        }
+    });
+    
+  /*  user.forEach(element => {
+        resultArray.push();
+    });
+    for(var i; i<=resultArray.length();i++){
+        if(resultArray[i]{
+            res.status(403).send({message: 'Usuario já existe'})
+            console.log('Deu ruim, email ja existe');
+        }
+    }*/
+
     
         
     

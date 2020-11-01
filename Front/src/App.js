@@ -47,7 +47,7 @@ class App extends React.Component {
         this.divLog5 = React.createRef();
         this.divLog6 = React.createRef();
         this.divErrReg = React.createRef();
-        this.divErrLog = React.createRef();
+        
     }
 
     cadastrar() {
@@ -385,7 +385,7 @@ class App extends React.Component {
                                             }
                                             {
                                                 this.state.divErrReg ?
-                                                    <div class="divLog">Erro ao cadastrar</div>
+                                                    <div class="divLog">E-mail já cadastrado</div>
                                                     : null
                                             }
                                             <button class="log" onClick={this.cadastrar.bind(this)}><h4>Cadastrar</h4></button>
