@@ -51,8 +51,6 @@ class App extends React.Component {
     }
 
     cadastrar() {
-        var email = this.state.name;
-        var senha = this.state.pass;
         if ((this.state.name == '') || (this.state.pass == '') || (this.state.passc == '')) {
             this.setState((state) => {
                 return {
@@ -119,7 +117,7 @@ class App extends React.Component {
                                         }
                                     });
                                 }, 2500)
-                                console.log(response);
+                                console.log(response.data);
                             
 
                         }))
