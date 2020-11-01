@@ -99,6 +99,15 @@
   resize:none;
   font-size: 16px;
 }
+.type1{
+  height: 20px;
+  width: 600px;
+  justify-content: flex-start;
+  resize:none;
+  font-size: 16px;
+}
+
+
 
 .formup{
   display: flex;

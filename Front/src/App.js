@@ -47,7 +47,7 @@ class App extends React.Component {
         this.divLog5 = React.createRef();
         this.divLog6 = React.createRef();
         this.divErrReg = React.createRef();
-        
+
     }
 
     cadastrar() {
@@ -104,21 +104,21 @@ class App extends React.Component {
                         senha: this.state.pass
                     })
                         .then(((response) => {
-                            
+
+                            this.setState((state) => {
+                                return {
+                                    divLog1: true  //cadastrado
+                                }
+                            });
+                            setTimeout(() => {
                                 this.setState((state) => {
                                     return {
-                                        divLog1: true  //cadastrado
+                                        divLog1: false
                                     }
                                 });
-                                setTimeout(() => {
-                                    this.setState((state) => {
-                                        return {
-                                            divLog1: false
-                                        }
-                                    });
-                                }, 2500)
-                                console.log(response.data);
-                            
+                            }, 2500)
+                            console.log(response.data);
+
 
                         }))
                         .catch(function (error) {
@@ -157,28 +157,57 @@ class App extends React.Component {
         var check;
         var resposta;
         const axios = require('axios');
-        axios.get('http://localhost:3021/users') //LINK NOVO RETORNA UM ARRAY COM TODOS OS USUÁRIOS, TROCAR ESSE CODIGO
+        axios.get('http://localhost:3021/user', {
+            params:{
+                email: this.state.namelog,
+                senha: this.state.passlog
+            }
+            
+        }) //LINK NOVO RETORNA UM ARRAY COM TODOS OS USUÁRIOS, TROCAR ESSE CODIGO
             .then(((response) => {
                 this.setState((state) => {
                     return {
-                        resposta: JSON.parse(response.data)//REMOVER TODAS AS MENÇÕES A TOKEN E MUDAR PRA SESSIONS, SEI LA COMO FUNCIONA
-                    }
-                });
-                console.log(response);
-            }));
-        for (var i; i <= resposta.length(); i++) {
-            if (resposta.email === this.state.namelog && resposta.password === this.state.passlog) {
-                this.setState((state) => {
-                    return {
+
                         displayName: this.state.namelog,
                         hideLogin: false,
                         showWelcome: true,
                         showSearch: true
                     }
+                });
+                // console.log(response);
+            }))
+            .catch(function (error) {
+                if (error.response) {
+                    this.setState((state) => {
+                        return {
+                            divLog4: true //Dados incorretos
+                        }
+                    });
+                    setTimeout(() => {
+                        this.setState((state) => {
+                            return {
+                                divLog4: false
+                            }
+                        });
+                    }, 2500)
                 }
-                )
-            }
-        }
+                console.log(error.response)
+
+            });
+        /*  for (var i; i <= resposta.length(); i++) {
+              if (resposta.email === this.state.namelog && resposta.password === this.state.passlog) {
+                  this.setState((state) => {
+                      return {
+                          displayName: this.state.namelog,
+                          hideLogin: false,
+                          showWelcome: true,
+                          showSearch: true
+                      }
+                  }
+                  )
+              }
+          }*/
+
         if ((this.state.namelog == '') || (this.state.passlog == '')) {
             this.setState((state) => {
                 return {
@@ -406,11 +435,17 @@ class App extends React.Component {
                         <div class="infomainbackground1">
                             <div class="infomainbackground2">
                                 <main class="infomain">
-                                    <form method="post" encType="multipart/form-data" class="formup">
-                                        <textarea placeholder="Digite algo..." class="type" />
-                                        <input type="file" name="file" class="choosefile" />
-                                        <input type="button" value="Upload" class="up" />
-                                    </form>
+                                    {
+                                        this.state.displayName === "adm@gmail.com" ?
+                                            <form method="post" encType="multipart/form-data" class="formup">
+                                                <textarea placeholder="Assunto" class="type1" />
+                                                <textarea placeholder="Digite algo..." class="type" />
+                                                <input type="file" name="file" class="choosefile" />
+                                                <input type="button" value="Upload" class="up" />
+                                            </form>
+                                            : null
+                                    }
+
 
                                     <div id="intro" class="introinfo">
                                         <div class="divintro">
