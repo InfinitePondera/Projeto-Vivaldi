@@ -30,12 +30,25 @@ app.get('/', (req, res)=>{
 });
 //buscar ususarios 
 app.get('/user', (req, res) =>{
-    dba.collection('user').find().toArray()
-        .then(results =>{    
-            res.end(results);
-            console.log(results)
-        })
-        .catch(error => console.error(error))
+    var users = false;
+    dba.collection('user')
+    .find({email: req.query.email, senha: req.query.senha})
+    .toArray((err, docs)=>{
+        if(docs.length>0){
+            users= true;
+        }
+        else{
+            users=false;
+        }
+        if(users===true){
+            res.status(200).send({message:'Logado'});
+            console.log('Sucesso');
+            console.log(req.query);
+        }else{
+            res.status(404).send({message:'Não logado'});
+            console.log('Cadastro não encontrado');
+        }
+    })
 });
 //cadastrar usuario
 app.post('/user', (req, res) =>{

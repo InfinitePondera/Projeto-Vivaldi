@@ -121,7 +121,7 @@ class App extends React.Component {
 
 
                         }))
-                        .catch(function (error) {
+                        .catch (error => {
                             if (error.response) {
                                 this.setState((state) => {
                                     return {
@@ -154,59 +154,7 @@ class App extends React.Component {
     }
 
     logar() {
-        var check;
-        var resposta;
-        const axios = require('axios');
-        axios.get('http://localhost:3021/user', {
-            params:{
-                email: this.state.namelog,
-                senha: this.state.passlog
-            }
-            
-        }) //LINK NOVO RETORNA UM ARRAY COM TODOS OS USUÁRIOS, TROCAR ESSE CODIGO
-            .then(((response) => {
-                this.setState((state) => {
-                    return {
-
-                        displayName: this.state.namelog,
-                        hideLogin: false,
-                        showWelcome: true,
-                        showSearch: true
-                    }
-                });
-                // console.log(response);
-            }))
-            .catch(function (error) {
-                if (error.response) {
-                    this.setState((state) => {
-                        return {
-                            divLog4: true //Dados incorretos
-                        }
-                    });
-                    setTimeout(() => {
-                        this.setState((state) => {
-                            return {
-                                divLog4: false
-                            }
-                        });
-                    }, 2500)
-                }
-                console.log(error.response)
-
-            });
-        /*  for (var i; i <= resposta.length(); i++) {
-              if (resposta.email === this.state.namelog && resposta.password === this.state.passlog) {
-                  this.setState((state) => {
-                      return {
-                          displayName: this.state.namelog,
-                          hideLogin: false,
-                          showWelcome: true,
-                          showSearch: true
-                      }
-                  }
-                  )
-              }
-          }*/
+        var login = this.state.namelog;
 
         if ((this.state.namelog == '') || (this.state.passlog == '')) {
             this.setState((state) => {
@@ -221,25 +169,81 @@ class App extends React.Component {
                     }
                 });
             }, 2500)
-        }
-        else {
-            if (check == false) {
-                this.setState((state) => {
-                    return {
-                        divLog4: true //Dados incorretos
-                    }
-                });
-                setTimeout(() => {
+        } else {
+            const axios = require('axios');
+            axios.get('http://localhost:3021/user', {
+                params: {
+                    email: this.state.namelog,
+                    senha: this.state.passlog
+                }
+
+            })
+                .then(((response) => {
+
                     this.setState((state) => {
                         return {
-                            divLog4: false
+
+                            displayName: login,
+                            hideLogin: false,
+                            showWelcome: true,
+                            showSearch: true
                         }
                     });
-                }, 2500)
+                }))
+                .catch (error => {
+                    console.log(error.response);
+                    if (error.response) {
+                        this.setState((state) => {
+                            return {
+                                divLog4: true //Dados incorretos
+                            }
+                        });
+                        setTimeout(() => {
+                            this.setState((state) => {
+                                return {
+                                    divLog4: false
+                                }
+                            });
+                        }, 2500)
+                    }
 
 
-            }
+                });
         }
+
+        /*  for (var i; i <= resposta.length(); i++) {
+              if (resposta.email === this.state.namelog && resposta.password === this.state.passlog) {
+                  this.setState((state) => {
+                      return {
+                          displayName: this.state.namelog,
+                          hideLogin: false,
+                          showWelcome: true,
+                          showSearch: true
+                      }
+                  }
+                  )
+              }
+          }*/
+
+
+        /* else {
+             if (check == false) {
+                 this.setState((state) => {
+                     return {
+                         divLog4: true //Dados incorretos
+                     }
+                 });
+                 setTimeout(() => {
+                     this.setState((state) => {
+                         return {
+                             divLog4: false
+                         }
+                     });
+                 }, 2500)
+ 
+ 
+             }
+         } */
 
         this.setState((state) => {
             return {
