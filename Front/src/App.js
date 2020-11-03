@@ -26,7 +26,6 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 
-
 class App extends React.Component {
 
     constructor(props) {
@@ -35,7 +34,7 @@ class App extends React.Component {
             name: '', pass: '', passc: '', idInput: '', subject: '', textContent: '',
             namelog: '', passlog: '', showSearch: false, showWelcome: false, hideLogin: true, displayName: '', divLog2: false,
             divLog1: false, divLog3: false, divLog4: false, divLog5: false, ind: 0, divErrReg: false, divErrLog: false,
-            verifToken: '', divLog6: false
+            verifToken: '', divLog6: false, uploadedImage: '', imgLoc: '', imgPath: '',  assuntoPost: '', conteudoPost: '', imagemPost: null
         };
         this.loginButton = React.createRef();
         this.welcomeText = React.createRef();
@@ -284,16 +283,57 @@ class App extends React.Component {
         });
     };
 
+    mudarAssunto(ev){
+        this.setState({
+            assuntoPost: ev.target.value
+        });
+    };
+
+    mudarConteudo(ev){
+        this.setState({
+            conteudoPost: ev.target.value
+        });
+    };
+
+    mudarImagem(ev){
+        this.setState({
+            imagemPost: ev.target.files
+        });
+    };
+
+    postarConteudo(){
+        const axios = require('axios');
+        axios.post('http://localhost:3021/contents', {
+            subject: this.state.assuntoPost,
+            post: this.state.conteudoPost,
+            img: this.state.imagemPost
+        })
+        .then(((response) => {
+            console.log(response);
+        }))
+        .catch (error => {
+            console.log(error.response);
+        });
+    };
+
     IDSearch() {
         const axios = require('axios');
         var palavrachave = this.state.idInput;
-        axios.get('http://localhost:3021/content?pesquisa=' + palavrachave)
+        axios.get('http://localhost:3021/contents', null, { params:{ pesquisa: palavrachave } })
             .then(((response) => {
                 this.setState({
-                    subject: response.data.subject,
-                    textContent: response.data.textContent,
+                    job: response.data.subject,
+                    name: response.data.post,
+                    //imgLoc: response.data.img
                 });
-            }));
+        }));
+        //axios.get('http://localhost:3021/images?pesquisa=' + this.state.imgLoc)
+          //  .then(((response) =>{
+            //    this.setState({
+              //      imgPath: response.data.imgLoc,
+                //    uploadedImage: response.data.imgPath + this.state.imgLoc
+                // })
+            // }))
     };
 
     render() {
@@ -353,13 +393,13 @@ class App extends React.Component {
                                                 <button onClick={this.IDSearch.bind(this)} class="popSearchButton"><h4>Pesquisar</h4></button>
                                             </div>
                                             <div class="popdivResults">
-                                                <h2>Job: <span>{this.state.job}</span></h2>
+                                                <h2>Assunto: <span>{this.state.job}</span></h2>
 
-                                                <h2>Nome: <span>{this.state.name}</span></h2>
+                                                <h2>Post: <span>{this.state.name}</span></h2>
 
-                                                <h2>Descrição: <span>{this.state.description}</span></h2>
+                                                <h2>Imagem: </h2>
 
-                                                <h2>Nível: <span>{this.state.itemLevel}</span></h2>
+                                                <img src={this.state.uploadedImage} alt="Imagem do post" />
 
                                             </div>
 
@@ -441,11 +481,11 @@ class App extends React.Component {
                                 <main class="infomain">
                                     {
                                         this.state.displayName === "adm@gmail.com" ?
-                                            <form method="post" encType="multipart/form-data" class="formup">
-                                                <textarea placeholder="Assunto" class="type1" />
-                                                <textarea placeholder="Digite algo..." class="type" />
-                                                <input type="file" name="file" class="choosefile" />
-                                                <input type="button" value="Upload" class="up" />
+                                            <form action="http://localhost:3021/contents" method="post" encType="multipart/form-data" class="formup">
+                                                <textarea value={this.state.assuntoPost} onChange={this.mudarAssunto.bind(this)} placeholder="Assunto" class="type1" />
+                                                <textarea value={this.state.conteudoPost} onChange={this.mudarConteudo.bind(this)} placeholder="Digite algo..." class="type" />
+                                                <input value={this.state.imagemPost} onChange={this.mudarImagem.bind(this)} type="file" name="file" class="choosefile" />
+                                                <input onClick={this.postarConteudo.bind(this)} type="button" value="Upload" class="up" />
                                             </form>
                                             : null
                                     }

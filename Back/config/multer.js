@@ -9,7 +9,7 @@ module.exports = {
             cb(null, path.resolve(__dirname, "..", "..", "..", "uploads"))
         },
         filename: (req, file, cb) =>{
-            if(err) cb(err);
+            if(console.error()) cb(console.error());
 
             const fileName = `${hash.toString('hex')}-${file.originalname}`
             cb(null, fileName);

@@ -80,36 +80,34 @@ app.post('/user', (req, res) =>{
 });
 //postar texto e imagem
 app.post('/contents', multer(multerConfig).single("file"),(req, res)=>{
-    upload(req, res, function(err){
-        if(err instanceof multer.MulterError){
-            res.status(500).send('erro do multer, olhe o console')
-            console.log(err)
-        }else if(err){
-            res.status(500).send('erro no upload, olhe o console')
-            console.log(err)
-        }
-    })
     var contentWLoc = {
         subject: req.body.subject,
         post: req.body.post,
-        img: req.file.filename
+        //img: req.file.filename
     }
     dba.collection('contents').insertOne(contentWLoc)
     .then(result => {
         res.status(200).send('uploaded tudo ok')
     })
     .catch(error => console.error(error));
-    var locImg = {
-        path: req.file.path,
-        filename: req.file.filename
-    }
-    dba.collection('images').insertOne(locImg)
-    .then(result => {
-        res.status(200).send('uploaded tudo ok')
-    })
-    .catch(error => console.error(error));
+    //var locImg = {
+        //path: req.file.path,
+        //filename: req.file.filename
+    //}
+    //dba.collection('images').insertOne(locImg)
+    //.then(result => {
+    //    res.status(200).send('uploaded tudo ok')
+    //})
+    //.catch(error => console.error(error));
 });
 
+app.get('/images', (req, res)=>{
+    dba.collection('images').find(res.query)
+        .then(results =>{
+            res.end(results);
+            console.log(results)
+        })
+})
 //COISAS QUE PODER SER DELETADAS, FUNÇÕES QUE FORAM TROCADAS [
     //postar algum texto
     //app.post('/test', (req, res)=>{
@@ -128,11 +126,11 @@ app.post('/contents', multer(multerConfig).single("file"),(req, res)=>{
 
 //buscar postagens
 app.get('/contents', (req, res)=>{
-    
-    dba.collection('contents').find(res.query.pesquisa)
-        .then(results =>{
+    dba.collection('contents').findOne({subject: req.query.pesquisa})
+        .then((results)=>{
             res.end(results);
             console.log(results);
+            console.log(req.query.pesquisa);
         })
         .catch(error => console.error(error));
 });
