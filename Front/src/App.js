@@ -337,6 +337,12 @@ class App extends React.Component {
                 //    uploadedImage: response.data.imgPath + this.state.imgLoc
                 // })
             // }))
+        this.setState((state) => {
+            return{
+                assuntoPost: '',
+                conteudoPost: ''
+            }
+        });
     };
 
     render() {
@@ -399,11 +405,6 @@ class App extends React.Component {
                                                 <h2>Assunto: <span>{this.state.job}</span></h2>
 
                                                 <h2>Post: <span>{this.state.name}</span></h2>
-
-                                                <h2>Imagem: </h2>
-
-                                                <img src={this.state.uploadedImage} alt="Imagem do post" />
-
                                             </div>
 
                                         </div>
@@ -487,7 +488,7 @@ class App extends React.Component {
                                             <form action="http://localhost:3021/contents" method="post" encType="multipart/form-data" class="formup">
                                                 <textarea value={this.state.assuntoPost} onChange={this.mudarAssunto.bind(this)} placeholder="Assunto" class="type1" />
                                                 <textarea value={this.state.conteudoPost} onChange={this.mudarConteudo.bind(this)} placeholder="Digite algo..." class="type" />
-                                                <input value={this.state.imagemPost} onChange={this.mudarImagem.bind(this)} type="file" name="file" class="choosefile" />
+                                                
                                                 <input onClick={this.postarConteudo.bind(this)} type="button" value="Upload" class="up" />
                                             </form>
                                             : null

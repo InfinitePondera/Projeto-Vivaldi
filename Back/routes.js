@@ -128,7 +128,8 @@ app.get('/images', (req, res)=>{
 app.get('/contents', (req, res)=>{
     dba.collection('contents').findOne({subject: req.query.pesquisa})
         .then((results)=>{
-            res.end(results);
+            res.json(results);
+            res.end();
             console.log(results);
             console.log(req.query.pesquisa);
         })
