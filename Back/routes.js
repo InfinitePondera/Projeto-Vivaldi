@@ -43,6 +43,7 @@ app.get('/user', (req, res) =>{
         if(users===true){
             res.status(200).send({message:'Logado'});
             console.log('Sucesso');
+            req.session.email = req.query.email;
             console.log(req.query);
         }else{
             res.status(404).send({message:'Não logado'});
