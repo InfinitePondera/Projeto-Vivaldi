@@ -296,7 +296,9 @@ class App extends React.Component {
     };
 
     mudarImagem(ev){
-        this.state.imagemPost = ev.target.files
+        this.setState({
+            imagemPost: ev.target.files
+        });
     };
 
     postarConteudo(){
@@ -317,21 +319,21 @@ class App extends React.Component {
     IDSearch() {
         const axios = require('axios');
         var palavrachave = this.state.idInput;
-        axios.get('http://localhost:3021/contents?pesquisa=' + palavrachave)
+        axios.get('http://localhost:3021/contents', null, { params:{ pesquisa: palavrachave } })
             .then(((response) => {
                 this.setState({
                     job: response.data.subject,
                     name: response.data.post,
-                    imgLoc: response.data.img
+                    //imgLoc: response.data.img
                 });
         }));
-        axios.get('http://localhost:3021/images?pesquisa=' + this.state.imgLoc)
-            .then(((response) =>{
-                this.setState({
-                    imgPath: response.data.imgLoc,
-                    uploadedImage: response.data.imgPath + this.state.imgLoc
-                })
-            }))
+        //axios.get('http://localhost:3021/images?pesquisa=' + this.state.imgLoc)
+          //  .then(((response) =>{
+            //    this.setState({
+              //      imgPath: response.data.imgLoc,
+                //    uploadedImage: response.data.imgPath + this.state.imgLoc
+                // })
+            // }))
     };
 
     render() {
@@ -391,9 +393,9 @@ class App extends React.Component {
                                                 <button onClick={this.IDSearch.bind(this)} class="popSearchButton"><h4>Pesquisar</h4></button>
                                             </div>
                                             <div class="popdivResults">
-                                                <h2>Job: <span>{this.state.job}</span></h2>
+                                                <h2>Assunto: <span>{this.state.job}</span></h2>
 
-                                                <h2>Nome: <span>{this.state.name}</span></h2>
+                                                <h2>Post: <span>{this.state.name}</span></h2>
 
                                                 <h2>Imagem: </h2>
 
@@ -480,10 +482,10 @@ class App extends React.Component {
                                     {
                                         this.state.displayName === "adm@gmail.com" ?
                                             <form action="http://localhost:3021/contents" method="post" encType="multipart/form-data" class="formup">
-                                                <textarea value={this.state.assuntoPost} onChange={this.mudarAssunto} placeholder="Assunto" class="type1" />
-                                                <textarea value={this.state.conteudoPost} onChange={this.mudarConteudo} placeholder="Digite algo..." class="type" />
-                                                <input value={this.state.imagemPost} onChange={this.mudarImagem} type="file" name="file" class="choosefile" />
-                                                <input onClick={this.postarConteudo} type="button" value="Upload" class="up" />
+                                                <textarea value={this.state.assuntoPost} onChange={this.mudarAssunto.bind(this)} placeholder="Assunto" class="type1" />
+                                                <textarea value={this.state.conteudoPost} onChange={this.mudarConteudo.bind(this)} placeholder="Digite algo..." class="type" />
+                                                <input value={this.state.imagemPost} onChange={this.mudarImagem.bind(this)} type="file" name="file" class="choosefile" />
+                                                <input onClick={this.postarConteudo.bind(this)} type="button" value="Upload" class="up" />
                                             </form>
                                             : null
                                     }
