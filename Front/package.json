@@ -13,11 +13,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.4",
-    "reactjs-popup": "^2.0.3",
+    "reactjs-popup": "^2.0.3"
     
-  },
-  "engines":{
-    "node": "12.x"
   },
   "homepage": "https://infinitepondera.github.io/Projeto-Vivaldi",
   "scripts": {

@@ -319,7 +319,10 @@ class App extends React.Component {
     IDSearch() {
         const axios = require('axios');
         var palavrachave = this.state.idInput;
-        axios.get('http://localhost:3021/contents', null, { params:{ pesquisa: palavrachave } })
+        axios.get('http://localhost:3021/contents',
+          { params:{ 
+              pesquisa: palavrachave} 
+            })
             .then(((response) => {
                 this.setState({
                     job: response.data.subject,
