@@ -109,6 +109,13 @@ app.post('/contents', multer(multerConfig).single("file"),(req, res)=>{
     .catch(error => console.error(error));
 });
 
+app.get('/images', (req, res)=>{
+    dba.collection('images').find(res.query.pesquisa)
+        .then(results =>{
+            res.end(results);
+            console.log(results);
+        })
+})
 //COISAS QUE PODER SER DELETADAS, FUNÇÕES QUE FORAM TROCADAS [
     //postar algum texto
     //app.post('/test', (req, res)=>{

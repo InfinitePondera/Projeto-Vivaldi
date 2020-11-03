@@ -21,6 +21,7 @@ import cropped14 from './assets/instagram-panel.webp';
 import cropped15 from './assets/vivaldi-for-android.webp';
 import cropped16 from './assets/Vivaldi-team.webp';
 import cropped17 from './assets/community.webp';
+import uploadedImage from this.state.imgPath + '/' + this.state.imgLoc;
 import './App.css';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -290,10 +291,17 @@ class App extends React.Component {
         axios.get('http://localhost:3021/content?pesquisa=' + palavrachave)
             .then(((response) => {
                 this.setState({
-                    subject: response.data.subject,
-                    textContent: response.data.textContent,
+                    job: response.data.subject,
+                    name: response.data.post,
+                    imgLoc: response.data.img
                 });
-            }));
+        }));
+        axios.get('http://localhost:3021/images?pesquisa=' + imgLoc)
+            .then(((response) =>{
+                this.setState({
+                    imgPath: response.data.imgLoc
+                })
+            }))
     };
 
     render() {
@@ -356,10 +364,6 @@ class App extends React.Component {
                                                 <h2>Job: <span>{this.state.job}</span></h2>
 
                                                 <h2>Nome: <span>{this.state.name}</span></h2>
-
-                                                <h2>Descrição: <span>{this.state.description}</span></h2>
-
-                                                <h2>Nível: <span>{this.state.itemLevel}</span></h2>
 
                                             </div>
 
@@ -441,7 +445,7 @@ class App extends React.Component {
                                 <main class="infomain">
                                     {
                                         this.state.displayName === "adm@gmail.com" ?
-                                            <form method="post" encType="multipart/form-data" class="formup">
+                                            <form action="http://localhost:3021/contents" method="post" encType="multipart/form-data" class="formup">
                                                 <textarea placeholder="Assunto" class="type1" />
                                                 <textarea placeholder="Digite algo..." class="type" />
                                                 <input type="file" name="file" class="choosefile" />
