@@ -365,6 +365,10 @@ class App extends React.Component {
 
                                                 <h2>Nome: <span>{this.state.name}</span></h2>
 
+                                                <h2>Imagem: </h2>
+
+                                                <img src={uploadedImage} alt="Imagem do post" />
+
                                             </div>
 
                                         </div>
