@@ -113,7 +113,7 @@ app.get('/images', (req, res)=>{
     dba.collection('images').find(res.query.pesquisa)
         .then(results =>{
             res.end(results);
-            console.log(results);
+            console.log(results)
         })
 })
 //COISAS QUE PODER SER DELETADAS, FUNÇÕES QUE FORAM TROCADAS [

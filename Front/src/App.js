@@ -21,11 +21,9 @@ import cropped14 from './assets/instagram-panel.webp';
 import cropped15 from './assets/vivaldi-for-android.webp';
 import cropped16 from './assets/Vivaldi-team.webp';
 import cropped17 from './assets/community.webp';
-import uploadedImage from this.state.imgPath + '/' + this.state.imgLoc;
 import './App.css';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-
 
 
 class App extends React.Component {
@@ -36,7 +34,7 @@ class App extends React.Component {
             name: '', pass: '', passc: '', idInput: '', subject: '', textContent: '',
             namelog: '', passlog: '', showSearch: false, showWelcome: false, hideLogin: true, displayName: '', divLog2: false,
             divLog1: false, divLog3: false, divLog4: false, divLog5: false, ind: 0, divErrReg: false, divErrLog: false,
-            verifToken: '', divLog6: false
+            verifToken: '', divLog6: false, uploadedImage: '', imgLoc: '', imgPath: '',  assuntoPost: '', conteudoPost: '', imagemPost: null
         };
         this.loginButton = React.createRef();
         this.welcomeText = React.createRef();
@@ -285,10 +283,41 @@ class App extends React.Component {
         });
     };
 
+    mudarAssunto(ev){
+        this.setState({
+            assuntoPost: ev.target.value
+        });
+    };
+
+    mudarConteudo(ev){
+        this.setState({
+            conteudoPost: ev.target.value
+        });
+    };
+
+    mudarImagem(ev){
+        this.state.imagemPost = ev.target.files
+    };
+
+    postarConteudo(){
+        const axios = require('axios');
+        axios.post('http://localhost:3021/contents', {
+            subject: this.state.assuntoPost,
+            post: this.state.conteudoPost,
+            img: this.state.imagemPost
+        })
+        .then(((response) => {
+            console.log(response);
+        }))
+        .catch (error => {
+            console.log(error.response);
+        });
+    };
+
     IDSearch() {
         const axios = require('axios');
         var palavrachave = this.state.idInput;
-        axios.get('http://localhost:3021/content?pesquisa=' + palavrachave)
+        axios.get('http://localhost:3021/contents?pesquisa=' + palavrachave)
             .then(((response) => {
                 this.setState({
                     job: response.data.subject,
@@ -296,10 +325,11 @@ class App extends React.Component {
                     imgLoc: response.data.img
                 });
         }));
-        axios.get('http://localhost:3021/images?pesquisa=' + imgLoc)
+        axios.get('http://localhost:3021/images?pesquisa=' + this.state.imgLoc)
             .then(((response) =>{
                 this.setState({
-                    imgPath: response.data.imgLoc
+                    imgPath: response.data.imgLoc,
+                    uploadedImage: response.data.imgPath + this.state.imgLoc
                 })
             }))
     };
@@ -367,7 +397,7 @@ class App extends React.Component {
 
                                                 <h2>Imagem: </h2>
 
-                                                <img src={uploadedImage} alt="Imagem do post" />
+                                                <img src={this.state.uploadedImage} alt="Imagem do post" />
 
                                             </div>
 
@@ -450,10 +480,10 @@ class App extends React.Component {
                                     {
                                         this.state.displayName === "adm@gmail.com" ?
                                             <form action="http://localhost:3021/contents" method="post" encType="multipart/form-data" class="formup">
-                                                <textarea placeholder="Assunto" class="type1" />
-                                                <textarea placeholder="Digite algo..." class="type" />
-                                                <input type="file" name="file" class="choosefile" />
-                                                <input type="button" value="Upload" class="up" />
+                                                <textarea value={this.state.assuntoPost} onChange={this.mudarAssunto} placeholder="Assunto" class="type1" />
+                                                <textarea value={this.state.conteudoPost} onChange={this.mudarConteudo} placeholder="Digite algo..." class="type" />
+                                                <input value={this.state.imagemPost} onChange={this.mudarImagem} type="file" name="file" class="choosefile" />
+                                                <input onClick={this.postarConteudo} type="button" value="Upload" class="up" />
                                             </form>
                                             : null
                                     }
